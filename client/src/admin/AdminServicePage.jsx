@@ -57,7 +57,7 @@ function AdminServicePage() {
   const [serviceMaxPrice, setServiceMaxPrice] = useState('');
   const [serviceDescription, setServiceDescription] = useState('');
 
-  const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api`; // Base URL for API
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Base URL for API
 
   // Helper to get auth headers
   const getAuthHeaders = () => {

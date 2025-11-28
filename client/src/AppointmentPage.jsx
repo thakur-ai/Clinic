@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Define API Base URL
+const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api`; // Define API Base URL
 
 const timeSlots = [
   '09:00 AM - 10:00 AM',
@@ -158,8 +158,8 @@ const AppointmentPage = () => {
     const fetchInitialData = async () => {
       try {
         const [doctorsResponse, servicesResponse] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/appointments/doctors`),
-          fetch(`${API_BASE_URL}/api/appointments/services`),
+          fetch(`${API_BASE_URL}/appointments/doctors`),
+          fetch(`${API_BASE_URL}/appointments/services`),
         ]);
 
         if (!doctorsResponse.ok) throw new Error(`HTTP error! status: ${doctorsResponse.status} for doctors`);
@@ -205,7 +205,7 @@ const AppointmentPage = () => {
     if (selectedDoctor) {
       const fetchHolidays = async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}/api/appointments/doctors/${selectedDoctor}/holidays`);
+          const response = await fetch(`${API_BASE_URL}/appointments/doctors/${selectedDoctor}/holidays`);
           if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for doctor holidays`);
           const data = await response.json();
           setDoctorHolidays(data.holidays.map(h => new Date(h)));
@@ -238,7 +238,7 @@ const AppointmentPage = () => {
     try {
       const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
 
-      const verifyResponse = await fetch(`${API_BASE_URL}/api/appointments/verify-payment`, {
+      const verifyResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/verify-payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ razorpay_order_id, razorpay_payment_id, razorpay_signature }),
@@ -246,7 +246,7 @@ const AppointmentPage = () => {
 
       if (!verifyResponse.ok) throw new Error('Payment verification failed.');
 
-      const bookingResponse = await fetch(`${API_BASE_URL}/api/appointments`, {
+      const bookingResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -291,7 +291,7 @@ const AppointmentPage = () => {
     }
 
     try {
-      const orderResponse = await fetch(`${API_BASE_URL}/api/appointments/create-order`, {
+      const orderResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: 50 * 100, currency: 'INR' }), 

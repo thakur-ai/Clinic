@@ -5,7 +5,7 @@ const Admin = require('../models/admin.model');
 
 // Generate JWT Token
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET || 'supersecretjwtkey', {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '1h',
     });
 };
@@ -29,7 +29,6 @@ router.post('/login', async (req, res) => {
             res.status(401).json({ message: 'Invalid credentials' });
         }
     } catch (error) {
-        console.error('Admin Login Error:', error); // Log the actual error
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -62,7 +61,6 @@ router.post('/register', async (req, res) => {
             res.status(400).json({ message: 'Invalid admin data' });
         }
     } catch (error) {
-        console.error('Admin Register Error:', error); // Log the actual error
         res.status(500).json({ message: 'Server error' });
     }
 });

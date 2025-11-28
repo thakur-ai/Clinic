@@ -53,7 +53,7 @@ function AdminAppointmentsPage() {
     setLoading(true);
     try {
       const authHeaders = getAuthHeaders();
-      const appointmentsResponse = await fetch(`${API_BASE_URL}/api/appointments`, { headers: authHeaders });
+      const appointmentsResponse = await fetch(`${API_BASE_URL}/admin/appointments`, { headers: authHeaders });
 
       if (!appointmentsResponse.ok) throw new Error(`HTTP error! status: ${appointmentsResponse.status} for appointments`);
 
@@ -82,7 +82,7 @@ function AdminAppointmentsPage() {
 
   const handleStatusUpdate = async (appointmentId, newStatus) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/appointments/${appointmentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/admin/appointments/${appointmentId}/status`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({ status: newStatus }),
@@ -106,7 +106,7 @@ function AdminAppointmentsPage() {
 
   const handleSaveNotes = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/appointments/${currentAppointmentForNotes._id}/notes`, {
+      const response = await fetch(`${API_BASE_URL}/admin/appointments/${currentAppointmentForNotes._id}/notes`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({ notes: appointmentNotes }),
@@ -135,7 +135,7 @@ function AdminAppointmentsPage() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/appointments/${currentAppointmentForReschedule._id}/reschedule`, {
+      const response = await fetch(`${API_BASE_URL}/admin/appointments/${currentAppointmentForReschedule._id}/reschedule`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({
