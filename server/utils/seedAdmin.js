@@ -9,13 +9,10 @@ const seedAdmin = async () => {
         let admin = await Admin.findOne({ username: adminUsername });
 
         if (admin) {
-            // Check if password needs to be updated. Hash the provided password to compare.
-            // Note: This is a simplification. In a real app, you might not re-hash and compare directly like this
-            // but rely on `matchPassword` after fetching. For seeding, we'll directly update if necessary.
+            // Admin exists, check if password needs update
             const isMatch = await bcrypt.compare(adminPassword, admin.password);
             if (!isMatch) {
-                // Password needs to be updated
-                admin.password = adminPassword; // The pre-save hook will hash this
+                admin.password = adminPassword; // Pre-save hook will hash this
                 await admin.save();
                 console.log('Admin password updated successfully.');
             } else {
@@ -23,9 +20,9 @@ const seedAdmin = async () => {
             }
         } else {
             // Admin does not exist, create a new one
-            admin = await Admin.create({
+            await Admin.create({
                 username: adminUsername,
-                password: adminPassword, // The pre-save hook in the model will hash this
+                password: adminPassword, // Pre-save hook will hash this
             });
             console.log('Admin created successfully.');
         }
