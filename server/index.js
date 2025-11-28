@@ -32,9 +32,13 @@ const { router: adminAppointmentRouter } = require('./routes/admin-appointment')
 const { auth } = require('./middleware/auth'); // Import auth middleware using named export
 const { protectAdmin } = require('./middleware/adminAuthMiddleware'); // Import admin auth middleware
 const adminAuthRoutes = require('./routes/admin-auth'); // Import admin auth routes
+const publicDoctorsRouter = require('./routes/public-doctors');
+const publicServicesRouter = require('./routes/public-services');
 
 app.use('/api/contacts', contactRouter);
 app.use('/api/appointments', appointmentRouter);
+app.use('/api/doctors', publicDoctorsRouter);
+app.use('/api/services', publicServicesRouter);
 app.use('/api/admin', adminAuthRoutes); // Admin authentication routes (login/register)
 
 // All routes below this line will be protected by adminAuthMiddleware
