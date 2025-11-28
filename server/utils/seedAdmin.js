@@ -4,27 +4,25 @@ const bcrypt = require('bcryptjs');
 const seedAdmin = async () => {
     try {
         const adminUsername = 'ompatil';
-        const adminPassword = '3107'; // The raw password to be hashed
+        // For security, do not hardcode passwords.
+        // The admin user should be created manually in the database or through a secure setup process.
+        // If an admin user needs to be seeded, its password should be set via environment variables.
+        // For now, if no admin exists, we will create one with a placeholder password that *must* be changed.
+        const adminPasswordPlaceholder = 'default_secure_password_123'; 
 
         let admin = await Admin.findOne({ username: adminUsername });
 
         if (admin) {
-            // Admin exists, check if password needs update
-            const isMatch = await bcrypt.compare(adminPassword, admin.password);
-            if (!isMatch) {
-                admin.password = adminPassword; // Pre-save hook will hash this
-                await admin.save();
-                console.log('Admin password updated successfully.');
-            } else {
-                console.log('Admin already exists with the correct password.');
-            }
+            console.log('Admin already exists with username:', adminUsername);
+            // We are not attempting to update the password via seeding here, as it's a one-time operation.
+            // Password updates should be handled through a secure admin panel function.
         } else {
-            // Admin does not exist, create a new one
+            // Admin does not exist, create a new one with a placeholder password
             await Admin.create({
                 username: adminUsername,
-                password: adminPassword, // Pre-save hook will hash this
+                password: adminPasswordPlaceholder, // Pre-save hook will hash this
             });
-            console.log('Admin created successfully.');
+            console.log('New admin created with username:', adminUsername, '. Please change the password immediately.');
         }
     } catch (error) {
         console.error('Error seeding admin user:', error);
