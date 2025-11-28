@@ -24,7 +24,9 @@ router.route('/').post(async (req, res) => {
         console.error('VITE_RECAPTCHA_SECRET_KEY is not defined in server environment.');
         return res.status(500).json('Error: reCAPTCHA secret key missing on server');
     }
+    console.log('reCAPTCHA Secret Key (first 5 chars):', secretKey ? secretKey.substring(0, 5) + '...' : 'undefined'); // Log only part of the key for security
     const verificationURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
+    console.log('reCAPTCHA Verification URL:', verificationURL);
 
     const response = await axios.post(verificationURL);
     const { success } = response.data;
