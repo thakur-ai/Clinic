@@ -8,5 +8,5 @@ const Badge = ({ text, color }) => {
   };
   return <span className={`text-xs px-2.5 py-1 rounded-md border font-medium ${colors[color] || colors.gray}`}>{text}</span>;
 };
-
+//op
 export default Badge;

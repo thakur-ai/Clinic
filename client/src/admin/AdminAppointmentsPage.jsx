@@ -38,7 +38,7 @@ function AdminAppointmentsPage() {
   // Doctor holidays (mocked for completeness, should ideally be fetched)
   const [doctorHolidays, setDoctorHolidays] = useState([]);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Base URL for API
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api"; // Base URL for API
 
   // Helper to get auth headers for admin
   const getAuthHeaders = () => {
@@ -53,7 +53,7 @@ function AdminAppointmentsPage() {
     setLoading(true);
     try {
       const authHeaders = getAuthHeaders();
-      const appointmentsResponse = await fetch(`${API_BASE_URL}/admin/appointments`, { headers: authHeaders });
+      const appointmentsResponse = await fetch(`${API_BASE_URL}/appointments`, { headers: authHeaders });
 
       if (!appointmentsResponse.ok) throw new Error(`HTTP error! status: ${appointmentsResponse.status} for appointments`);
 

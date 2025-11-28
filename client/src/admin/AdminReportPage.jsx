@@ -22,7 +22,7 @@ const AdminReportPage = () => {
   const [afterTreatmentImage, setAfterTreatmentImage] = useState(null);
   const [documents, setDocuments] = useState([]);
 
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api";
 
   const getAuthHeaders = () => {
     const adminToken = localStorage.getItem('adminToken');

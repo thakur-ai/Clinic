@@ -9,5 +9,5 @@ const InfoRow = ({ icon, label, value, truncate = false }) => (
     </div>
   </div>
 );
-
+//op
 export default InfoRow;

@@ -8,7 +8,7 @@ import {
   FaCheckCircle, FaHospital, FaExclamationTriangle, FaMoneyBillWave
 } from 'react-icons/fa';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Define API Base URL
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL + "/api"; // Define API Base URL
 
 const timeSlots = [
   '09:00 AM - 10:00 AM',

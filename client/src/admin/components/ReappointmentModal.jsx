@@ -27,8 +27,8 @@ const ReappointmentModal = ({ isOpen, onClose, patientData, onAppointmentBooked 
         setLoading(true);
         setError(null);
         try {
-          const doctorsResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/doctors`);
-          const servicesResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/admin/services`);
+          const doctorsResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/doctors`);
+          const servicesResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/services`);
 
           if (!doctorsResponse.ok || !servicesResponse.ok) {
             throw new Error('Failed to fetch doctors or services');
@@ -73,7 +73,7 @@ const ReappointmentModal = ({ isOpen, onClose, patientData, onAppointmentBooked 
         return;
       }
 
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/appointments`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
