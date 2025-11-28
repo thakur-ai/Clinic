@@ -15,20 +15,33 @@ const generateToken = (id) => {
 // @access  Public
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
+    console.log('Attempting admin login for username:', username);
 
     try {
         const admin = await Admin.findOne({ username });
 
-        if (admin && (await admin.matchPassword(password))) {
+        if (!admin) {
+            console.log('Admin not found for username:', username);
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        console.log('Admin found:', admin.username);
+        const isMatch = await admin.matchPassword(password);
+
+        if (isMatch) {
+            console.log('Password matched for admin:', admin.username);
+            console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Defined' : 'Undefined');
             res.json({
                 _id: admin._id,
                 username: admin.username,
                 token: generateToken(admin._id),
             });
         } else {
+            console.log('Invalid password for admin:', admin.username);
             res.status(401).json({ message: 'Invalid credentials' });
         }
     } catch (error) {
+        console.error('Server error during admin login:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
