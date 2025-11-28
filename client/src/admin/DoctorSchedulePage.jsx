@@ -35,7 +35,7 @@ function DoctorSchedulePage() {
   const [newRescheduleDate, setNewRescheduleDate] = useState(null);
   const [newRescheduleTime, setNewRescheduleTime] = useState('');
 
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const getAuthHeaders = () => {
     const adminToken = localStorage.getItem('adminToken');

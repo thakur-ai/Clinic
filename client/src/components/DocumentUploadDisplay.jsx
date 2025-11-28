@@ -26,7 +26,7 @@ const DocumentUploadDisplay = ({ appointmentId, initialDocuments = [], isAdmin, 
     formData.append('document', selectedFile);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/appointments/${appointmentId}/upload-document`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/appointments/${appointmentId}/upload-document`, {
         method: 'PATCH',
         headers: {
           ...(localStorage.getItem('adminToken') && { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` })
@@ -50,7 +50,7 @@ const DocumentUploadDisplay = ({ appointmentId, initialDocuments = [], isAdmin, 
     }
   };
 
-  const serverBaseUrl = 'http://localhost:5000';
+  const serverBaseUrl = `${process.env.REACT_APP_API_BASE_URL}`;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">

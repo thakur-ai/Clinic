@@ -38,7 +38,7 @@ function AdminAppointmentsPage() {
   // Doctor holidays (mocked for completeness, should ideally be fetched)
   const [doctorHolidays, setDoctorHolidays] = useState([]);
 
-  const API_BASE_URL = 'http://localhost:5000/api'; // Base URL for API
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Base URL for API
 
   // Helper to get auth headers for admin
   const getAuthHeaders = () => {
@@ -53,7 +53,7 @@ function AdminAppointmentsPage() {
     setLoading(true);
     try {
       const authHeaders = getAuthHeaders();
-      const appointmentsResponse = await fetch(`${API_BASE_URL}/appointments`, { headers: authHeaders });
+      const appointmentsResponse = await fetch(`${API_BASE_URL}/api/appointments`, { headers: authHeaders });
 
       if (!appointmentsResponse.ok) throw new Error(`HTTP error! status: ${appointmentsResponse.status} for appointments`);
 
@@ -82,7 +82,7 @@ function AdminAppointmentsPage() {
 
   const handleStatusUpdate = async (appointmentId, newStatus) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/admin/appointments/${appointmentId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/appointments/${appointmentId}/status`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({ status: newStatus }),
@@ -106,7 +106,7 @@ function AdminAppointmentsPage() {
 
   const handleSaveNotes = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/appointments/${currentAppointmentForNotes._id}/notes`, {
+      const response = await fetch(`${API_BASE_URL}/api/appointments/${currentAppointmentForNotes._id}/notes`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({ notes: appointmentNotes }),
@@ -135,7 +135,7 @@ function AdminAppointmentsPage() {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/appointments/${currentAppointmentForReschedule._id}/reschedule`, {
+      const response = await fetch(`${API_BASE_URL}/api/appointments/${currentAppointmentForReschedule._id}/reschedule`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
         body: JSON.stringify({

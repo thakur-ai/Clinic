@@ -129,7 +129,7 @@ const UserReportPage = () => {
       let data;
 
       // Attempt 1: UUID
-      response = await fetch(`http://localhost:5000/api/appointments/${currentReportId}`, {
+      response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/${currentReportId}`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
       });
 
@@ -141,7 +141,7 @@ const UserReportPage = () => {
       
       // Attempt 2: Mongo ID (if 404)
       if (response.status === 404) {
-          response = await fetch(`http://localhost:5000/api/appointments/mongo-id/${currentReportId}`, {
+          response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/mongo-id/${currentReportId}`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
           });
 
@@ -216,7 +216,7 @@ const UserReportPage = () => {
   const handleSaveMedicalHistory = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/appointments/${primaryAppointment.appointmentId}/medical-history`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/${primaryAppointment.appointmentId}/medical-history`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -252,7 +252,7 @@ const UserReportPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/appointments/${currentAppointmentForReschedule.appointmentId}/reschedule`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/${currentAppointmentForReschedule.appointmentId}/reschedule`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

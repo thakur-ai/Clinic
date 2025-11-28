@@ -30,7 +30,7 @@ const AdminContactsPage = () => {
     setError(null);
     try {
       const adminToken = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/admin/contacts', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/admin/contacts`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': adminToken ? `Bearer ${adminToken}` : '',

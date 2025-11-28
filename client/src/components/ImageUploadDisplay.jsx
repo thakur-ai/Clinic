@@ -43,7 +43,7 @@ const ImageUploadDisplay = ({ appointmentId, initialBeforeImage, initialAfterIma
     formData.append(formDataKey, fileToUpload);
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, {
         method: 'PATCH',
         headers: {
           ...(localStorage.getItem('adminToken') && { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }) // Only add if token exists
@@ -72,7 +72,7 @@ const ImageUploadDisplay = ({ appointmentId, initialBeforeImage, initialAfterIma
     }
   };
 
-  const serverBaseUrl = 'http://localhost:5000'; // Define your backend server base URL
+  const serverBaseUrl = `${process.env.REACT_APP_API_BASE_URL}`; // Define your backend server base URL
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
