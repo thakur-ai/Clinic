@@ -13,15 +13,18 @@ const protectAdmin = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
             // Attach admin to the request
-            req.admin = await Admin.findById(decoded.id).select('-password');
+            req.admin = await Admin.findById(decoded.admin.id).select('-password');
+
+            if (!req.admin) {
+                return res.status(401).json({ message: 'Not authorized, admin not found' });
+            }
+
             next();
         } catch (error) {
             console.error(error);
             res.status(401).json({ message: 'Not authorized, token failed' });
         }
-    }
-
-    if (!token) {
+    } else {
         res.status(401).json({ message: 'Not authorized, no token' });
     }
 };

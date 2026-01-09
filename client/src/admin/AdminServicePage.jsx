@@ -74,6 +74,13 @@ function AdminServicePage() {
       const authHeaders = getAuthHeaders();
       const response = await fetch(`${API_BASE_URL}/admin/services`, { headers: authHeaders });
 
+      if (response.status === 401) {
+        // Token invalid, redirect to login
+        localStorage.removeItem('adminToken');
+        window.location.href = '/admin/login';
+        return;
+      }
+
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for services`);
 
       const servicesData = await response.json();
@@ -143,6 +150,13 @@ function AdminServicePage() {
         });
       }
 
+      if (response.status === 401) {
+        // Token invalid, redirect to login
+        localStorage.removeItem('adminToken');
+        window.location.href = '/admin/login';
+        return;
+      }
+
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       
       // Clear and close form, then refresh data
@@ -161,6 +175,14 @@ function AdminServicePage() {
         method: 'DELETE',
         headers: getAuthHeaders(),
       });
+
+      if (response.status === 401) {
+        // Token invalid, redirect to login
+        localStorage.removeItem('adminToken');
+        window.location.href = '/admin/login';
+        return;
+      }
+
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       fetchServices(); // Refresh list
     } catch (err) {

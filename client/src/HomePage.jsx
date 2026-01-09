@@ -415,7 +415,7 @@ const HomePage = () => {
             <ScrollReveal width="100%">
               {/* Main 3D Card */}
               <div
-                className={`relative z-20 w-full h-[350px] sm:h-[450px] lg:h-[500px] bg-white rounded-[2rem] p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] transition-transform duration-100 ease-out ${
+                className={`relative z-20 w-full h-[350px] sm:h-[450px] lg:h-[700px] bg-white rounded-[2rem] p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] transition-transform duration-100 ease-out ${
                   isMobile ? "" : ""
                 }`}
                 style={
@@ -429,7 +429,7 @@ const HomePage = () => {
                     src="/Banner.jpeg"
                     // https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=2070&auto=format&fit=crop
                     alt="Dentist"
-                    className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
+                    className="w-full h-full object-contain scale-105 group-hover:scale-110 transition-transform duration-1000"
                   />
 
                   {/* Gradient Overlay */}
@@ -437,12 +437,6 @@ const HomePage = () => {
 
                   {/* Card Content Overlay */}
                   <div className="absolute bottom-5 left-5 right-5 md:bottom-8 md:left-8 md:right-8 text-white">
-                    <div className="flex items-center gap-2 mb-2 text-indigo-300 font-bold uppercase text-[10px] tracking-widest">
-                      <Activity size={12} /> Advanced Care
-                    </div>
-                    <p className="text-lg md:text-2xl font-bold leading-tight drop-shadow-md">
-                      "The most comfortable dental experience ever."
-                    </p>
                     <div className="flex items-center gap-2 mt-3 opacity:90">
                       <div className="flex text-yellow-400 gap-0.5">
                         {[...Array(5)].map((_, i) => (

@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Define API Base URL
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL+"/api";
 
 const timeSlots = [
   '09:00 AM - 10:00 AM',
