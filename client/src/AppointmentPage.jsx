@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
-const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/api`; // Define API Base URL
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Define API Base URL
 
 const timeSlots = [
   '09:00 AM - 10:00 AM',
@@ -238,7 +238,7 @@ const AppointmentPage = () => {
     try {
       const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
 
-      const verifyResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/verify-payment`, {
+      const verifyResponse = await fetch(`${API_BASE_URL}/appointments/verify-payment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ razorpay_order_id, razorpay_payment_id, razorpay_signature }),
@@ -246,7 +246,7 @@ const AppointmentPage = () => {
 
       if (!verifyResponse.ok) throw new Error('Payment verification failed.');
 
-      const bookingResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments`, {
+      const bookingResponse = await fetch(`${API_BASE_URL}/appointments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -291,10 +291,10 @@ const AppointmentPage = () => {
     }
 
     try {
-      const orderResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/create-order`, {
+      const orderResponse = await fetch(`${API_BASE_URL}/appointments/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: 50 * 100, currency: 'INR' }), 
+        body: JSON.stringify({ amount: 50 * 100, currency: 'INR' }),
       });
 
       if (!orderResponse.ok) throw new Error('Failed to create payment order.');

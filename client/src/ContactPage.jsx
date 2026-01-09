@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
-import { 
-  Phone, 
-  MapPin, 
-  Mail, 
-  Facebook, 
-  Instagram, 
-  Twitter, 
-  Linkedin, 
-  Send, 
+import {
+  Phone,
+  MapPin,
+  Mail,
+  Instagram,
+  MessageCircle,
+  Send,
   CheckCircle,
   AlertCircle,
   Building,
@@ -192,10 +190,9 @@ const ContactPage = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: "#", color: "text-[#1877F2] bg-blue-50 hover:bg-[#1877F2] hover:text-white" },
-    { icon: Instagram, href: "#", color: "text-[#E4405F] bg-pink-50 hover:bg-[#E4405F] hover:text-white" },
-    { icon: Twitter, href: "#", color: "text-[#1DA1F2] bg-sky-50 hover:bg-[#1DA1F2] hover:text-white" },
-    { icon: Linkedin, href: "#", color: "text-[#0A66C2] bg-blue-50 hover:bg-[#0A66C2] hover:text-white" },
+    { icon: Instagram, href: "https://www.instagram.com/shreesamarthkrupadentalclinic/", color: "text-[#E4405F] bg-pink-50 hover:bg-[#E4405F] hover:text-white" },
+    { icon: MessageCircle, href: "https://wa.me/917378670369", color: "text-[#25D366] bg-green-50 hover:bg-[#25D366] hover:text-white" },
+    { icon: Mail, href: "mailto:bhagupatil10@gmail.com", color: "text-[#EA4335] bg-red-50 hover:bg-[#EA4335] hover:text-white" },
   ];
 
   return (
@@ -252,7 +249,7 @@ const ContactPage = () => {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-sm font-semibold text-white">Visit Us</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">Sharda Chowk, Amravati, India</p>
+                    <p className="text-xs text-slate-400 mt-0.5">shop no 2, Vishwavihar apt , near lijjat papad shop , ganesh chawk manjarli ,badlapur west, India</p>
                   </div>
                 </a>
 
@@ -262,7 +259,7 @@ const ContactPage = () => {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-sm font-semibold text-white">Call Us</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">+91 98765 43210</p>
+                    <p className="text-xs text-slate-400 mt-0.5">+91 73786 70369</p>
                   </div>
                 </a>
 
@@ -272,7 +269,7 @@ const ContactPage = () => {
                   </div>
                   <div className="ml-4">
                     <h3 className="text-sm font-semibold text-white">Email Us</h3>
-                    <p className="text-xs text-slate-400 mt-0.5">info@gouriinn.com</p>
+                    <p className="text-xs text-slate-400 mt-0.5">bhagupatil10@gmail.com</p>
                   </div>
                 </a>
               </div>

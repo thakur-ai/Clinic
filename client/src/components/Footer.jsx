@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { FiPhoneCall } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 
@@ -71,7 +71,7 @@ const Footer = () => {
             Connect with us
           </h3>
           <p className="text-xs md:text-sm font-semibold text-gray-400 mb-2">
-            123 Clinic Street, Health City, State 12345, Country
+            shop no 2, Vishwavihar apt , near lijjat papad shop , ganesh chawk manjarli ,badlapur west
           </p>
           <a
             href="tel:+1234567890"
@@ -82,10 +82,10 @@ const Footer = () => {
             >
               <FiPhoneCall className="text-xs md:text-sm text-gray-400" />
             </span>
-            <span>Phone: +1 234 567 8900</span>
+            <span>Phone: +91 7378670369</span>
           </a>
           <a
-            href="mailto:info@clinicname.com"
+            href="mailto:bhagupatil10@gmail.com"
             className="flex items-center gap-2 text-xs md:text-sm font-semibold text-gray-400 mb-4"
           >
             <span
@@ -93,21 +93,12 @@ const Footer = () => {
             >
               <MdEmail className="text-xs md:text-sm text-gray-400" />
             </span>
-            <span>Email: info@clinicname.com</span>
+            <span>Email: bhagupatil10@gmail.com</span>
           </a>
           {/* Social Media Icons */}
           <div className="flex font-semibold  space-x-4 text-base md:text-lg mb-4">
             <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="bg-gray-800 text-white rounded-full p-2 shadow-md"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/shreesamarthkrupadentalclinic/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -116,13 +107,22 @@ const Footer = () => {
               <FaInstagram />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://wa.me/917378670369"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn"
+              aria-label="WhatsApp"
               className="bg-gray-800 text-white rounded-full p-2 shadow-md"
             >
-              <FaLinkedinIn />
+              <FaWhatsapp />
+            </a>
+            <a
+              href="mailto:bhagupatil10@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Email"
+              className="bg-gray-800 text-white rounded-full p-2 shadow-md"
+            >
+              <MdEmail />
             </a>
           </div>
         </div>

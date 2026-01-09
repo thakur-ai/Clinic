@@ -51,7 +51,7 @@ const Navbar = () => {
           <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 transition-transform duration-300 hover:scale-110">
             <Stethoscope size={18} strokeWidth={3} />
           </div>
-          Dent<span className="text-indigo-600">X</span>
+          Shree SamarthKrupa <span className="text-indigo-600">Dental Clinic</span>
         </NavLink>
 
         {/* Desktop Links */}

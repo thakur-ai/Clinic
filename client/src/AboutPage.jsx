@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Users, Award, Clock, MapPin, 
-  Linkedin, Twitter, Facebook, 
+import {
+  Users, Award, Clock, MapPin,
+  Linkedin, Twitter, Facebook,
   CheckCircle2, Heart, Sparkles,
-  Quote, Star, Activity /* Added Activity here */
+  Quote, Star, Activity, Instagram, MessageCircle, Mail /* Added Activity here */
 } from 'lucide-react';
 
 // --- COMPONENT: Scroll Reveal Wrapper ---
@@ -64,39 +64,40 @@ const AboutPage = () => {
   const doctors = [
     {
       id: 1,
-      name: "Dr. Sarah Bennett",
-      role: "Orthodontist",
+      name: "Dr. karishma patil",
+      role: "endodontist",
       image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop",
-      bio: "Creating confident smiles with 15+ years of Invisalign expertise.",
     },
     {
       id: 2,
-      name: "Dr. James Carter",
-      role: "Oral Surgeon",
-      image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2064&auto=format&fit=crop",
-      bio: "Specialist in painless implants and reconstruction.",
+      name: "Dr. anurag",
+      role: "orthodontist",
+      image: "/anurag.jpg",
     },
     {
       id: 3,
-      name: "Dr. Emily Chen",
-      role: "Pediatric",
+      name: "Dr. Sachin",
+      role: "oral surgeon",
       image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=2070&auto=format&fit=crop",
-      bio: "Making dental visits fun for kids since 2012.",
     },
     {
       id: 4,
-      name: "Dr. Michael Ross",
-      role: "Cosmetic",
+      name: "Dr. rupali",
+      role: "pedodontist",
       image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop",
-      bio: "Celebrity smile designer focusing on veneers.",
+    },
+    {
+      id: 5,
+      name: "Dr. sneha",
+      role: "prosthodontist",
+      image: "/Sneha.jpeg",
     }
   ];
 
   const timeline = [
-    { year: "2005", title: "The Beginning", desc: "Dr. Bennett opens DentX." },
-    { year: "2010", title: "Tech Leap", desc: "First clinic to use 3D Scanning." },
-    { year: "2018", title: "Expansion", desc: "Opened HQ in New York." },
-    { year: "2024", title: "Global Award", desc: "Voted #1 Patient Experience." }
+    { year: "2022 ", title: "we started", desc: "Started clinic by ubringing Dental awareness  among people." },
+    { year: "2023", title: "our first set up started", desc: "First clinic started at Vishwavihar apt , near lijjat papad shop , ganesh chawk manjarli ,badlapur west." },
+    { year: "2025", title: "we have our 2 branches in badlapur", desc: "Second clinic started at Chakrapani apt. Katrap ,opposite to katrap signal, ghorpade chawk ,badlapur east." }
   ];
 
   return (
@@ -169,7 +170,7 @@ const AboutPage = () => {
           <div className="space-y-6 md:space-y-8 text-center lg:text-left">
             <ScrollReveal>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-indigo-100 text-indigo-600 text-[10px] md:text-xs font-bold uppercase tracking-widest shadow-sm">
-                <Sparkles size={12} /> Since 2005
+                <Sparkles size={12} /> Since 2022
               </div>
             </ScrollReveal>
             
@@ -294,7 +295,7 @@ const AboutPage = () => {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {doctors.map((doc, index) => (
             <ScrollReveal key={doc.id} delay={index * 150}>
               <div className="group glass-card rounded-[1.5rem] overflow-hidden hover:shadow-xl transition-all duration-300">
@@ -304,8 +305,9 @@ const AboutPage = () => {
                   
                   {/* Social Icons - Always visible on mobile, hover on desktop */}
                   <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-3 lg:translate-y-12 lg:group-hover:translate-y-0 transition-transform duration-300 z-20">
-                    <div className="bg-white p-1.5 rounded-full shadow-sm hover:text-indigo-600"><Linkedin size={14}/></div>
-                    <div className="bg-white p-1.5 rounded-full shadow-sm hover:text-indigo-600"><Twitter size={14}/></div>
+                    <div className="bg-white p-1.5 rounded-full shadow-sm hover:text-indigo-600"><Instagram size={14}/></div>
+                    <div className="bg-white p-1.5 rounded-full shadow-sm hover:text-indigo-600"><MessageCircle size={14}/></div>
+                    <div className="bg-white p-1.5 rounded-full shadow-sm hover:text-indigo-600"><Mail size={14}/></div>
                   </div>
                 </div>
 
