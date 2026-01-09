@@ -291,7 +291,7 @@ const ContactPage = () => {
                 </div>
 
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+91 7378670369"
                   className="flex items-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 group"
                 >
                   <div className="w-10 h-10 shrink-0 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 group-hover:scale-110 transition-transform">
@@ -302,7 +302,7 @@ const ContactPage = () => {
                       Call Us
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      +91 73786 70369
+                      +91  73786 70369
                     </p>
                   </div>
                 </a>
@@ -493,7 +493,7 @@ const ContactPage = () => {
 
       {/* Modern Floating WhatsApp */}
       <a
-        href="https://wa.me/91738670369"
+        href="https://wa.me/917378670369"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-4 md:right-6 z-50 flex items-center gap-2 md:gap-3 pl-2 md:pl-4 pr-1 py-1 bg-white rounded-full shadow-2xl shadow-green-900/20 border border-green-100 hover:-translate-y-1 transition-all duration-300 group"
