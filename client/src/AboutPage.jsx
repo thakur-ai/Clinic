@@ -71,7 +71,7 @@ const AboutPage = () => {
       id: 2,
       name: "Dr. Anurag",
       role: "orthodontist",
-      image: "/Anurag.jpg",
+      image: "/Anurag.jpeg",
     },
     {
       id: 3,
