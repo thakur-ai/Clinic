@@ -388,7 +388,7 @@ const UserReportPage = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-4 md:py-6 w-full">
+        <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-4 md:py-6 w-full">
           {/* Responsive Layout Strategy:
             - Mobile (< lg): Single column stack. Order logic: Profile first, then History, then Timeline, then Uploads.
             - Desktop (>= lg): Two columns. Left (Profile + History), Right (Timeline + Uploads).
