@@ -531,7 +531,7 @@ const HomePage = () => {
                 <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center transform transition-all duration-500 group-hover:-translate-y-2 border border-white/20 shadow-xl">
                   <div className="relative mb-5 md:mb-6">
                     <img
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
+                      src="/Review2.jpeg"
                       alt="Patient"
                       className="relative w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all duration-500"
                     />
@@ -562,7 +562,7 @@ const HomePage = () => {
                 <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center transform transition-all duration-500 group-hover:-translate-y-2 border border-white/20 shadow-xl">
                   <div className="relative mb-5 md:mb-6">
                     <img
-                      src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop"
+                      src="/Review3.jpeg"
                       alt="Patient"
                       className="relative w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all duration-500"
                     />
@@ -593,7 +593,7 @@ const HomePage = () => {
                 <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center transform transition-all duration-500 group-hover:-translate-y-2 border border-white/20 shadow-xl">
                   <div className="relative mb-5 md:mb-6">
                     <img
-                      src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
+                      src="/Review1.jpeg"
                       alt="Patient"
                       className="relative w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all duration-500"
                     />
