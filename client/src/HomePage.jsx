@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
-// --- SCROLL REVEAL COMPONENT (Original, complex version) ---
+// --- SCROLL REVEAL COMPONENT ---
 const ScrollReveal = ({ children, delay = 0, width = "100%" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -26,7 +26,7 @@ const ScrollReveal = ({ children, delay = 0, width = "100%" }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect(); // Disconnect the observer once the element is visible
+          observer.disconnect();
         }
       },
       { threshold: 0.1 }
@@ -50,7 +50,7 @@ const ScrollReveal = ({ children, delay = 0, width = "100%" }) => {
   );
 };
 
-// NEW Simple ScrollReveal component (renamed to SimpleScrollReveal to avoid conflict)
+// SIMPLE SCROLL REVEAL
 const SimpleScrollReveal = ({ children, delay = 0, width = "100%" }) => (
   <div
     className="animate-fade-in-up"
@@ -60,7 +60,7 @@ const SimpleScrollReveal = ({ children, delay = 0, width = "100%" }) => (
   </div>
 );
 
-// NEW FeaturesBento component
+// --- FEATURES BENTO COMPONENT ---
 const FeaturesBento = () => {
   return (
     <section className="py-12 md:py-24 relative z-10 bg-slate-50 overflow-hidden">
@@ -79,15 +79,15 @@ const FeaturesBento = () => {
           </SimpleScrollReveal>
         </div>
 
-        {/* BENTO GRID - Using 10 columns for precise 60/40 splits */}
-        <div className="grid grid-cols-1 md:grid-cols-10 gap-5 md:gap-6 lg:gap-8 auto-rows-[minmax(300px,auto)]">
-          {/* --- CARD 4: Anxiety-Free (Moved to Row 1 - 60% Width) --- */}
+        {/* BENTO GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-10 gap-5 md:gap-6 lg:gap-8 auto-rows-[minmax(auto,auto)]">
+          {/* --- CARD 4: Implants (Wide) --- */}
           <div className="md:col-span-6 h-full">
             <SimpleScrollReveal width="100%" delay={100} className="h-full">
-              <div className="h-full group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-500 hover:-translate-y-1">
-                {/* Switch to Flex Row for wider card layout */}
+              <div className="h-full group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-500 hover:-translate-y-1 flex flex-col">
                 <div className="p-6 md:p-8 lg:p-10 flex flex-col md:flex-row items-center gap-8 h-full relative z-10">
-                  <div className="flex-1 order-2 md:order-1">
+                  {/* Text Section - Order 1 on mobile to show title first */}
+                  <div className="flex-1 order-1 md:order-1 w-full">
                     <div className="flex items-center gap-4 mb-4 md:mb-6">
                       <div className="w-12 h-12 md:w-14 md:h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-600 group-hover:animate-pulse">
                         <Heart size={24} className="md:w-7 md:h-7" />
@@ -95,16 +95,16 @@ const FeaturesBento = () => {
                     </div>
 
                     <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-3 md:mb-4">
-                      Implants{" "}
+                      Implants
                     </h3>
                     <p className="text-slate-500 text-sm md:text-lg leading-relaxed">
                       Implant placement are done wonderfully by our special team
-                      of implantologist{" "}
+                      of implantologist
                     </p>
                   </div>
 
-                  {/* Image on the right for 60% width card */}
-                  <div className="w-full md:w-5/12 h-48 md:h-full order-1 md:order-2 rounded-2xl overflow-hidden relative shadow-inner transform group-hover:scale-[1.02] transition-transform duration-500">
+                  {/* Image Section - Order 2 on mobile */}
+                  <div className="w-full md:w-5/12 h-48 md:h-full order-2 md:order-2 rounded-2xl overflow-hidden relative shadow-inner transform group-hover:scale-[1.02] transition-transform duration-500 mt-4 md:mt-0">
                     <div className="absolute inset-0 bg-indigo-900/10 group-hover:bg-transparent transition-colors z-10"></div>
                     <img
                       src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=2070&auto=format&fit=crop"
@@ -117,25 +117,22 @@ const FeaturesBento = () => {
             </SimpleScrollReveal>
           </div>
 
-          {/* --- CARD 1: Cosmetic Perfection (Moved to Row 1 - 40% Width) --- */}
+          {/* --- CARD 1: Cosmetic --- */}
           <div className="md:col-span-4 h-full">
             <SimpleScrollReveal width="100%" delay={200} className="h-full">
-              <div className="h-full group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-1">
-                {/* Hover Background Blob */}
+              <div className="h-full min-h-[300px] group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 hover:-translate-y-1">
                 <div className="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-indigo-50 rounded-full blur-3xl -mr-20 -mt-20 transition-transform duration-700 group-hover:scale-150 group-hover:bg-indigo-100/50"></div>
-
                 <div className="relative z-10 p-6 md:p-8 lg:p-10 h-full flex flex-col justify-between">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm mb-6 group-hover:rotate-12 transition-transform duration-300">
                     <Sparkles size={24} className="md:w-7 md:h-7" />
                   </div>
-
                   <div>
                     <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-3 md:mb-4 group-hover:text-indigo-600 transition-colors">
                       Cosmetic treatments
                     </h3>
                     <p className="text-slate-500 text-sm md:text-base leading-relaxed mb-6">
                       Smile designing done using best scans and treatment plans
-                      by Us .
+                      by Us.
                     </p>
                   </div>
                 </div>
@@ -143,12 +140,11 @@ const FeaturesBento = () => {
             </SimpleScrollReveal>
           </div>
 
-          {/* --- CARD 3: Lifetime Warranty (Moved to Row 2 - 40% Width) --- */}
+          {/* --- CARD 3: Aligners --- */}
           <div className="md:col-span-4 h-full">
             <SimpleScrollReveal width="100%" delay={300} className="h-full">
-              <div className="h-full group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 hover:-translate-y-1">
+              <div className="h-full min-h-[300px] group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-teal-500/10 transition-all duration-500 hover:-translate-y-1">
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-teal-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
                 <div className="relative z-10 p-6 md:p-8 lg:p-10 h-full flex flex-col justify-between">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600 mb-6 group-hover:scale-110 transition-transform duration-300 delay-75">
                     <Shield size={24} className="md:w-7 md:h-7" />
@@ -167,19 +163,16 @@ const FeaturesBento = () => {
             </SimpleScrollReveal>
           </div>
 
-          {/* --- CARD 2: Same Day Implants (Moved to Row 2 - 60% Width) --- */}
+          {/* --- CARD 2: Root Canal (Wide) --- */}
           <div className="md:col-span-6 h-full">
             <SimpleScrollReveal width="100%" delay={400} className="h-full">
-              <div className="h-full group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-slate-900 border border-slate-800 shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:shadow-indigo-900/50 transition-all duration-500 hover:-translate-y-1">
-                {/* Animated Gradient Background */}
+              <div className="h-full min-h-[300px] group relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-slate-900 border border-slate-800 shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:shadow-indigo-900/50 transition-all duration-500 hover:-translate-y-1">
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 bg-[length:200%_200%] animate-[gradient_6s_ease-in-out_infinite]"></div>
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
-
                 <div className="relative z-10 p-6 md:p-8 lg:p-10 h-full flex flex-col justify-between">
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Clock size={24} className="md:w-7 md:h-7" />
                   </div>
-
                   <div className="max-w-xl">
                     <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-3 md:mb-4">
                       Root canal treatment
@@ -212,7 +205,7 @@ const HomePage = () => {
     window.addEventListener("resize", checkMobile);
 
     const handleMouseMove = (e) => {
-      // Only track mouse on desktop to save performance
+      // Only track mouse on desktop
       if (window.innerWidth >= 768) {
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = (e.clientY / window.innerHeight) * 2 - 1;
@@ -244,30 +237,17 @@ const HomePage = () => {
   const tiltY = isMobile ? 0 : mousePos.x * -8;
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] font-sans text-slate-900 relative overflow-x-hidden selection:bg-indigo-500 selection:text-white ">
+    <div className="min-h-screen bg-[#FDFDFD] font-sans text-slate-900 relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
       {/* --- GLOBAL STYLES --- */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        .glass-panel {
-          background: rgba(255, 255, 255, 0.65);
-          backdrop-filter: blur(16px); /* Reduced blur for mobile performance */
-          border: 1px solid rgba(255, 255, 255, 0.5);
-          box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.05);
-        }
-        .glass-dark {
-          background: rgba(15, 23, 42, 0.85);
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: white;
-        }
         .grid-bg {
           background-size: 40px 40px;
           background-image: linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
                             linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
         }
-        .text-glow { text-shadow: 0 0 30px rgba(99, 102, 241, 0.3); }
         
         @keyframes blob-bounce {
           0%, 100% { transform: translate(0, 0) scale(1); }
@@ -277,12 +257,12 @@ const HomePage = () => {
         .animate-blob { animation: blob-bounce 10s infinite ease-in-out alternate; }
         .delay-2000 { animation-delay: 2s; }
         
-        /* Mobile specific float animation since we don't use mouse parallax */
+        /* Mobile specific float animation */
         @keyframes mobile-float {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
+          50% { transform: translateY(-10px); }
         }
-        .animate-mobile-float { animation: mobile-float 4s ease-in-out infinite; }
+        .animate-mobile-float { animation: mobile-float 5s ease-in-out infinite; }
       `}</style>
 
       {/* =========================================
@@ -293,8 +273,8 @@ const HomePage = () => {
         <div className="absolute inset-0 grid-bg [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)]"></div>
 
         {/* 2. Moving Color Blobs */}
-        <div className="absolute top-[-10%] right-[-10%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-indigo-200/30 rounded-full blur-[80px] md:blur-[120px] animate-blob mix-blend-multiply"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-blue-200/30 rounded-full blur-[80px] md:blur-[100px] animate-blob delay-2000 mix-blend-multiply"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-indigo-200/30 rounded-full blur-[60px] md:blur-[120px] animate-blob mix-blend-multiply"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[250px] md:w-[600px] h-[250px] md:h-[600px] bg-blue-200/30 rounded-full blur-[60px] md:blur-[100px] animate-blob delay-2000 mix-blend-multiply"></div>
 
         {/* 3. Spotlight (Hidden on mobile) */}
         {!isMobile && (
@@ -315,8 +295,7 @@ const HomePage = () => {
           HERO SECTION
          ========================================= */}
       <main className="relative z-10 pt-8 pb-8 md:pt-20 md:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-50/50">
-        {/* Container */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* --- TEXT CONTENT (Cols 7) --- */}
           <div className="lg:col-span-7 relative z-20 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8 order-1">
             {/* Pill Badge */}
@@ -334,9 +313,9 @@ const HomePage = () => {
 
             {/* Headline */}
             <ScrollReveal delay={100}>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-[1.1] md:leading-[1] tracking-tight">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-tight md:leading-[1] tracking-tight">
                 Shree samarthkrupa <br className="hidden md:block" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 animate-gradient-x">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 animate-gradient-x block md:inline mt-2 md:mt-0">
                   Dental clinic.
                 </span>
               </h1>
@@ -411,12 +390,12 @@ const HomePage = () => {
           </div>
 
           {/* --- 3D VISUAL (Cols 5) --- */}
-          <div className="lg:col-span-5 relative h-[350px] sm:h-[450px] lg:h-[600px] flex items-center justify-center perspective-[1000px] order-2 mt-4 lg:mt-0">
+          <div className="lg:col-span-5 relative h-[380px] sm:h-[450px] lg:h-[600px] flex items-center justify-center perspective-[1000px] order-2 mt-4 lg:mt-0 px-2 sm:px-0">
             <ScrollReveal width="100%">
               {/* Main 3D Card */}
               <div
-                className={`relative z-20 w-full h-[350px] sm:h-[450px] lg:h-[700px] bg-white rounded-[2rem] p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] transition-transform duration-100 ease-out ${
-                  isMobile ? "" : ""
+                className={`relative z-20 w-full h-[380px] sm:h-[450px] lg:h-[700px] bg-white rounded-[2rem] p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] transition-transform duration-100 ease-out ${
+                  isMobile ? "animate-mobile-float" : ""
                 }`}
                 style={
                   isMobile
@@ -427,9 +406,8 @@ const HomePage = () => {
                 <div className="w-full h-full rounded-[1.5rem] overflow-hidden relative bg-slate-100 group">
                   <img
                     src="/Banner.jpeg"
-                    // https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=2070&auto=format&fit=crop
                     alt="Dentist"
-                    className="w-full h-full object-contain scale-105 group-hover:scale-110 transition-transform duration-1000"
+                    className="w-full h-full object-cover sm:object-contain object-top scale-105 group-hover:scale-110 transition-transform duration-1000"
                   />
 
                   {/* Gradient Overlay */}
@@ -452,14 +430,14 @@ const HomePage = () => {
               </div>
 
               {/* Floating Element: Success Rate */}
-              {/* Logic: On mobile, absolute position is tighter to ensure it doesn't overflow screen width */}
+              {/* Adjusted mobile positioning to prevent overflow */}
               <div
-                className={`absolute top-[5%] right-2 sm:-right-4 md:top-[10%] md:-right-[20px] z-30 bg-white/90 backdrop-blur-md p-3 rounded-xl shadow-xl border border-white/50 ${
-                  isMobile ? "animate-bounce-slow" : "animate-blob"
+                className={`absolute top-4 right-4 md:top-[10%] md:-right-[20px] z-30 bg-white/95 backdrop-blur-md p-3 rounded-xl shadow-xl border border-white/50 ${
+                  isMobile ? "scale-90" : "animate-blob"
                 }`}
                 style={
                   isMobile
-                    ? { animationDelay: "0s" }
+                    ? {}
                     : {
                         transform: `translate(${mousePos.x * -20}px, ${
                           mousePos.y * -20
@@ -483,13 +461,14 @@ const HomePage = () => {
               </div>
 
               {/* Floating Element: Patients Love Us */}
+              {/* Adjusted mobile positioning to bottom left corner of container */}
               <div
-                className={`absolute bottom-[10%] left-2 sm:-left-4 md:bottom-[15%] md:-left-[30px] z-30 bg-slate-900/90 backdrop-blur-md p-3 rounded-xl shadow-2xl shadow-indigo-500/20 border border-white/10 ${
-                  isMobile ? "animate-bounce-slow" : "animate-blob delay-2000"
+                className={`absolute bottom-[15%] left-4 md:bottom-[15%] md:-left-[30px] z-30 bg-slate-900/95 backdrop-blur-md p-3 rounded-xl shadow-2xl shadow-indigo-500/20 border border-white/10 ${
+                  isMobile ? "scale-90" : "animate-blob delay-2000"
                 }`}
                 style={
                   isMobile
-                    ? { animationDelay: "2s" }
+                    ? {}
                     : {
                         transform: `translate(${mousePos.x * 30}px, ${
                           mousePos.y * 30
@@ -521,182 +500,130 @@ const HomePage = () => {
          ========================================= */}
       <FeaturesBento />
 
+      {/* =========================================
+          TESTIMONIALS SECTION
+         ========================================= */}
       <section className="py-12 md:py-24 relative z-10 bg-slate-900 text-white overflow-hidden">
-        {/* =========================================
-          BACKGROUND EFFECTS
-      ========================================= */}
+        {/* Background Effects */}
         <div className="absolute inset-0 z-0">
-          {/* Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-          {/* Gradient Blob for mood */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[100px] pointer-events-none"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* HEADER SECTION */}
           <ScrollReveal>
-            {/* Changed mb-8 to mb-12 md:mb-16 for better spacing */}
             <div className="text-center mb-12 md:mb-16">
               <h2 className="text-3xl md:text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-100 to-indigo-200">
                 What Our Patients Say
               </h2>
               <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed px-2">
                 Hear from those who've experienced the Shree samarthkrupa Dental
-                clinic difference. Their smiles are our greatest reward.
+                clinic difference.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* CARDS GRID */}
-          {/* Added gap-6 md:gap-8 and max-w-md mx-auto md:max-w-none */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-md mx-auto md:max-w-none">
-            {/* --- CARD 1 --- */}
+            {/* --- TESTIMONIAL 1 --- */}
             <ScrollReveal delay={100}>
               <div className="group relative h-full">
-                {/* Glow Effect on Hover */}
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl"></div>
-
-                {/* Card Container: Changed p-8 to p-6 md:p-8 */}
                 <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center transform transition-all duration-500 group-hover:-translate-y-2 border border-white/20 shadow-xl">
-                  {/* Image with Ring Animation */}
                   <div className="relative mb-5 md:mb-6">
-                    <div className="absolute inset-0 bg-indigo-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
                     <img
                       src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
-                      alt="Patient Sarah J."
-                      // Responsive Image sizing: w-16 h-16 mobile / w-20 h-20 desktop
+                      alt="Patient"
                       className="relative w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all duration-500"
                     />
                     <div className="absolute -bottom-2 -right-2 bg-indigo-500 text-white p-1.5 rounded-full">
                       <Quote size={12} fill="currentColor" />
                     </div>
                   </div>
-
-                  {/* Stars */}
-                  <div className="flex gap-1 text-yellow-400 mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="flex gap-1 text-yellow-400 mb-4 md:mb-6">
                     {[1, 2, 3, 4, 5].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={16}
-                        fill="currentColor"
-                        className="drop-shadow-sm"
-                      />
+                      <Star key={i} size={16} fill="currentColor" />
                     ))}
                   </div>
-
-                  {/* Quote */}
                   <p className="text-slate-600 italic mb-6 flex-grow leading-relaxed text-sm md:text-base">
                     "I was terrified of the root canal procedure, but Doctor
-                    made it completely painless. The clinic uses advanced rotary
-                    tools which made the process very fast. Highly recommended
-                    for anyone scared of dentists!"
+                    made it completely painless. Highly recommended!"
                   </p>
-
-                  {/* Author Info */}
-                  <div className="mt-auto">
-                    <p className="font-bold text-slate-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors">
-                      - Poonam jaiswal
-                    </p>
-                  </div>
+                  <p className="font-bold text-slate-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors">
+                    - Poonam jaiswal
+                  </p>
                 </div>
               </div>
             </ScrollReveal>
 
-            {/* --- CARD 2 --- */}
+            {/* --- TESTIMONIAL 2 --- */}
             <ScrollReveal delay={200}>
               <div className="group relative h-full">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl"></div>
-
                 <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center transform transition-all duration-500 group-hover:-translate-y-2 border border-white/20 shadow-xl">
                   <div className="relative mb-5 md:mb-6">
-                    <div className="absolute inset-0 bg-indigo-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
                     <img
                       src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop"
-                      alt="Patient Mark T."
+                      alt="Patient"
                       className="relative w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all duration-500"
                     />
                     <div className="absolute -bottom-2 -right-2 bg-indigo-500 text-white p-1.5 rounded-full">
                       <Quote size={12} fill="currentColor" />
                     </div>
                   </div>
-
-                  <div className="flex gap-1 text-yellow-400 mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="flex gap-1 text-yellow-400 mb-4 md:mb-6">
                     {[1, 2, 3, 4, 5].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={16}
-                        fill="currentColor"
-                        className="drop-shadow-sm"
-                      />
+                      <Star key={i} size={16} fill="currentColor" />
                     ))}
                   </div>
-
                   <p className="text-slate-600 italic mb-6 flex-grow leading-relaxed text-sm md:text-base">
-                    "Finally found a doctor who gives honest advice. They never
-                    suggest expensive treatments unless it is absolutely
-                    necessary. The rates are very reasonable compared to other
-                    clinics in the area."{" "}
+                    "Finally found a doctor who gives honest advice. The rates
+                    are very reasonable compared to other clinics."
                   </p>
-
-                  <div className="mt-auto">
-                    <p className="font-bold text-slate-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors">
-                      - Baban lokhande
-                    </p>
-                  </div>
+                  <p className="font-bold text-slate-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors">
+                    - Baban lokhande
+                  </p>
                 </div>
               </div>
             </ScrollReveal>
 
-            {/* --- CARD 3 --- */}
+            {/* --- TESTIMONIAL 3 --- */}
             <ScrollReveal delay={300}>
               <div className="group relative h-full">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl"></div>
-
                 <div className="relative h-full bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center transform transition-all duration-500 group-hover:-translate-y-2 border border-white/20 shadow-xl">
                   <div className="relative mb-5 md:mb-6">
-                    <div className="absolute inset-0 bg-indigo-500 rounded-full blur opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
                     <img
                       src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
-                      alt="Patient Emily R."
+                      alt="Patient"
                       className="relative w-16 h-16 md:w-20 md:h-20 rounded-full object-cover ring-4 ring-slate-100 group-hover:ring-indigo-100 transition-all duration-500"
                     />
                     <div className="absolute -bottom-2 -right-2 bg-indigo-500 text-white p-1.5 rounded-full">
                       <Quote size={12} fill="currentColor" />
                     </div>
                   </div>
-
-                  <div className="flex gap-1 text-yellow-400 mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="flex gap-1 text-yellow-400 mb-4 md:mb-6">
                     {[1, 2, 3, 4, 5].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={16}
-                        fill="currentColor"
-                        className="drop-shadow-sm"
-                      />
+                      <Star key={i} size={16} fill="currentColor" />
                     ))}
                   </div>
-
                   <p className="text-slate-600 italic mb-6 flex-grow leading-relaxed text-sm md:text-base">
                     "My 7-year-old son usually cries at clinics, but here the
-                    doctor was so friendly and playful with him. He actually
-                    enjoyed his filling treatment! Best dental clinic for kids."{" "}
+                    doctor was so friendly. Best dental clinic for kids."
                   </p>
-
-                  <div className="mt-auto">
-                    <p className="font-bold text-slate-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors">
-                      - Thansen Patil
-                    </p>
-                  </div>
+                  <p className="font-bold text-slate-900 text-base md:text-lg group-hover:text-indigo-600 transition-colors">
+                    - Thansen Patil
+                  </p>
                 </div>
               </div>
             </ScrollReveal>
           </div>
         </div>
       </section>
+
       {/* Footer Spacer */}
       <div className="h-12 md:h-20"></div>
     </div>
   );
 };
-//op
+
 export default HomePage;
