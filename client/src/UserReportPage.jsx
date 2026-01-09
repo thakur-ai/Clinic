@@ -339,7 +339,7 @@ const UserReportPage = () => {
   // RENDER: MAIN REPORT CONTENT (Enhanced for Mobile)
   // ==================================================================================
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-white pb-10 font-sans text-gray-800 relative overflow-x-hidden selection:bg-blue-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-white pb-10 font-sans text-gray-800 relative overflow-x-hidden selection:bg-blue-100 pt-10 md:pt-5">
       {/* --- 1. BACKGROUND EFFECTS LAYER --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         {/* Grid Pattern */}
@@ -388,7 +388,7 @@ const UserReportPage = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-4 md:py-6 w-full">
+        <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 pt-16 pb-4 md:py-6 w-full">
           {/* Responsive Layout Strategy:
             - Mobile (< lg): Single column stack. Order logic: Profile first, then History, then Timeline, then Uploads.
             - Desktop (>= lg): Two columns. Left (Profile + History), Right (Timeline + Uploads).
