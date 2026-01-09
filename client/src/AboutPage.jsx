@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Users, Award, Clock, MapPin,
-  Linkedin, Twitter, Facebook,
-  CheckCircle2, Heart, Sparkles,
-  Quote, Star, Activity, Instagram, MessageCircle, Mail /* Added Activity here */
+  Award, MapPin,
+  CheckCircle2, Sparkles,
+  Star, Instagram, MessageCircle, Mail /* Added Activity here */
 } from 'lucide-react';
 
 // --- COMPONENT: Scroll Reveal Wrapper ---
@@ -72,7 +71,7 @@ const AboutPage = () => {
       id: 2,
       name: "Dr. Anurag",
       role: "orthodontist",
-      image: "/anurag.jpg",
+      image: "/Anurag.jpeg",
     },
     {
       id: 3,
