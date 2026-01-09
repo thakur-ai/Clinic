@@ -426,7 +426,7 @@ const HomePage = () => {
               >
                 <div className="w-full h-full rounded-[1.5rem] overflow-hidden relative bg-slate-100 group">
                   <img
-                    src="/banner.jpg"
+                    src="/Banner.jpeg"
                     // https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=2070&auto=format&fit=crop
                     alt="Dentist"
                     className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-1000"
