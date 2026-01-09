@@ -314,9 +314,9 @@ const HomePage = () => {
             {/* Headline */}
             <ScrollReveal delay={100}>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-tight md:leading-[1] tracking-tight">
-                Shree samarthkrupa <br className="hidden md:block" />
+                Shree SamarthKrupa<br className="hidden md:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 animate-gradient-x block md:inline mt-2 md:mt-0">
-                  Dental clinic.
+                  Dental Clinic
                 </span>
               </h1>
             </ScrollReveal>
