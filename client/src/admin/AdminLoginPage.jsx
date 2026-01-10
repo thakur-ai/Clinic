@@ -92,7 +92,7 @@ const AdminLoginPage = () => {
         RIGHT SIDE: Login Form (Full width mobile, Half width desktop)
         --------------------------
       */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-24 bg-gray-50 lg:bg-white relative">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-12 lg:p-24 bg-gray-50 lg:bg-white relative">
         {/* Mobile-only background blobs */}
         <div className="lg:hidden absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30" />
