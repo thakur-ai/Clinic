@@ -18,9 +18,6 @@ const AppointmentTimelineSection = ({
           </div>
           <h2 className="text-lg font-bold text-slate-800">Appointment History</h2>
         </div>
-        <button className="text-xs font-bold text-blue-600 bg-white border border-blue-100 px-3 py-1.5 rounded-full hover:bg-blue-50 hover:border-blue-200 transition-all flex items-center gap-1 group">
-           View All <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform"/>
-        </button>
       </div>
 
       {/* Timeline Content */}
