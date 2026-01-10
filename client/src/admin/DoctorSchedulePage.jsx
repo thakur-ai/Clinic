@@ -235,13 +235,21 @@ function DoctorSchedulePage() {
 
   if (loading)
     return (
-      <div className="p-6 text-center text-gray-500">Loading schedule...</div>
+      <div className="flex h-screen items-center justify-center bg-gray-50">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="h-12 w-12 bg-gray-200 rounded-full mb-4"></div>
+          <div className="h-4 w-32 bg-gray-200 rounded"></div>
+        </div>
+      </div>
     );
   if (error)
     return <div className="p-6 text-center text-red-500">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 sm:pb-10">
+    <div className="min-h-screen bg-gray-50/80 pb-20 sm:pb-10">
+      {/* This style tag handles the difficult-to-customize parts of the React Datepicker 
+        specifically for mobile screens to ensure it doesn't overflow.
+      */}
       <style>{`
         .react-datepicker {
           font-family: inherit;
@@ -252,8 +260,8 @@ function DoctorSchedulePage() {
           justify-content: center;
         }
         .react-datepicker__month-container {
-            width: 100%;
-            max-width: 350px; /* Prevent it from getting too wide on tablets */
+           width: 100%;
+           max-width: 350px;
         }
         .react-datepicker__header {
           background-color: white;
@@ -261,19 +269,31 @@ function DoctorSchedulePage() {
           padding-top: 1rem;
         }
         .react-datepicker__day-name, .react-datepicker__day {
-          width: 2.2rem;
-          height: 2.2rem;
-          line-height: 2.2rem;
-          margin: 0.15rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          line-height: 2.5rem;
+          margin: 0.2rem;
         }
-        @media (min-width: 640px) {
+        
+        /* Mobile Specific Overrides */
+        @media (max-width: 640px) {
+            .react-datepicker__day-name, .react-datepicker__day {
+                width: 2rem;
+                height: 2rem;
+                line-height: 2rem;
+                margin: 0.1rem;
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 370px) {
              .react-datepicker__day-name, .react-datepicker__day {
-                width: 2.5rem;
-                height: 2.5rem;
-                line-height: 2.5rem;
-                margin: 0.2rem;
-             }
+                width: 1.7rem;
+                height: 1.7rem;
+                line-height: 1.7rem;
+                font-size: 0.8rem;
+            }
         }
+
         .react-datepicker__day--selected,
         .react-datepicker__day--keyboard-selected {
           background-color: #4f46e5 !important;
@@ -283,65 +303,25 @@ function DoctorSchedulePage() {
         .holiday-flag::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background-color: #ef4444; border-radius: 50%; }
         .appt-flag { background-color: #eff6ff !important; color: #1e40af !important; position: relative; }
         .appt-flag::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background-color: #3b82f6; border-radius: 50%; }
-
-        /* Additional styles for very small screens to improve mobile calendar view */
-        @media (max-width: 500px) {
-            .react-datepicker {
-                width: unset; 
-                max-width: 280px; 
-                padding: 0; 
-                margin: 0 auto; 
-            }
-            .react-datepicker__month-container {
-                max-width: 100%; 
-            }
-            .react-datepicker__day-name, .react-datepicker__day {
-                width: 1.6rem; 
-                height: 1.6rem; 
-                line-height: 1.6rem; 
-                font-size: 0.7rem; 
-                margin: 0.05rem; 
-            }
-            .react-datepicker__header {
-                padding-top: 0.3rem; 
-            }
-            .react-datepicker__navigation--previous, 
-            .react-datepicker__navigation--next {
-                top: 0.4rem; 
-                padding: 0.2rem; 
-            }
-        }
-        @media (max-width: 360px) { /* Even smaller adjustments for very narrow screens */
-            .react-datepicker__day-name, .react-datepicker__day {
-                width: 1.4rem;
-                height: 1.4rem;
-                line-height: 1.4rem;
-                font-size: 0.65rem;
-                margin: 0.02rem;
-            }
-            .react-datepicker__current-month {
-                font-size: 0.9rem;
-            }
-        }
       `}</style>
 
-      {/* Header Section */}
+      {/* 1. Header Section */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
                 Doctor Schedule
               </h2>
-              <p className="text-sm text-gray-500 hidden sm:block">
+              <p className="text-xs sm:text-sm text-gray-500">
                 Manage physician availability and agendas.
               </p>
             </div>
 
-            <div className="w-full md:w-72">
+            <div className="w-full md:w-72 mt-1 md:mt-0">
               <div className="relative group">
                 <select
-                  className="block w-full pl-4 pr-10 py-2.5 sm:py-3 text-base border-gray-300 bg-gray-50 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 transition-shadow cursor-pointer"
+                  className="block w-full pl-4 pr-10 py-2.5 text-sm sm:text-base border-gray-300 bg-gray-50 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 transition-shadow cursor-pointer shadow-sm hover:shadow-md"
                   value={selectedDoctorId}
                   onChange={(e) => {
                     setSelectedDoctorId(e.target.value);
@@ -375,11 +355,11 @@ function DoctorSchedulePage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-6">
         {selectedDoctorId && doctorSchedule.doctorName ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Left Column: Calendar */}
-            <div className="lg:col-span-4 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-start">
+            {/* 2. Left Column: Calendar & Actions */}
+            <div className="lg:col-span-4 space-y-4 lg:space-y-6">
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="p-4 border-b border-gray-50 flex items-center justify-between">
                   <h3 className="font-bold text-gray-700">Calendar</h3>
@@ -387,7 +367,7 @@ function DoctorSchedulePage() {
                     {viewDate.getFullYear()}
                   </span>
                 </div>
-                <div className="p-2 sm:p-4 flex justify-center">
+                <div className="p-2 flex justify-center">
                   <DatePicker
                     inline
                     selected={viewDate}
@@ -432,7 +412,7 @@ function DoctorSchedulePage() {
                   setSelectedHolidayDate(viewDate);
                   setShowAddHolidayModal(true);
                 }}
-                className="w-full bg-white border-2 border-dashed border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 font-semibold py-2.5 px-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm text-sm"
+                className="w-full bg-white border-2 border-dashed border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 font-semibold py-3 px-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm text-sm active:scale-[0.98] transform duration-100"
               >
                 <svg
                   className="w-4 h-4"
@@ -458,16 +438,17 @@ function DoctorSchedulePage() {
               </button>
             </div>
 
-            {/* Right Column: Agenda */}
+            {/* 3. Right Column: Agenda */}
             <div className="lg:col-span-8">
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 min-h-[500px] flex flex-col relative">
-                {/* Sticky Header for Agenda */}
-                <div className="sticky top-[73px] lg:static z-20 bg-white/95 backdrop-blur-sm px-3 py-3 sm:px-4 sm:py-4 lg:px-8 lg:py-5 border-b border-gray-100 rounded-t-2xl flex flex-row items-center justify-between">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 min-h-[500px] flex flex-col relative overflow-hidden">
+                {/* Sticky Header for Agenda inside the card */}
+                {/* Adjusted 'top' value to account for the main sticky header */}
+                <div className="sticky top-[73px] sm:top-[80px] lg:static z-20 bg-white/95 backdrop-blur-sm px-4 py-4 lg:px-8 lg:py-5 border-b border-gray-100 flex flex-row items-center justify-between">
                   <div>
-                    <h4 className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest sm:text-xs">
+                    <h4 className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-1">
                       Daily Agenda
                     </h4>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-tight">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
                       {viewDate.toLocaleDateString(undefined, {
                         weekday: "short",
                         month: "long",
@@ -475,14 +456,14 @@ function DoctorSchedulePage() {
                       })}
                     </h3>
                   </div>
-                  <div className="text-right hidden sm:block">
-                    <div className="text-sm text-gray-500 font-medium">
+                  <div className="text-right">
+                    <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold">
                       Dr. {doctorSchedule.doctorName}
-                    </div>
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-6 flex-1 bg-gray-50/50 rounded-b-2xl">
+                <div className="p-3 sm:p-6 flex-1 bg-gray-50/50">
                   {(() => {
                     const isHoliday = doctorSchedule.holidays.some(
                       (h) => h.toDateString() === viewDate.toDateString()
@@ -494,8 +475,8 @@ function DoctorSchedulePage() {
 
                     if (isHoliday) {
                       return (
-                        <div className="h-full flex flex-col items-center justify-center text-center py-12 px-4 bg-red-50 rounded-lg shadow-inner border border-red-100">
-                          <div className="bg-red-100 p-4 rounded-full mb-4 shadow-md">
+                        <div className="h-full flex flex-col items-center justify-center text-center py-12 px-4 bg-red-50/50 rounded-xl border-2 border-dashed border-red-100">
+                          <div className="bg-red-100 p-4 rounded-full mb-4 shadow-sm">
                             <svg
                               className="w-10 h-10 text-red-600"
                               fill="none"
@@ -514,12 +495,11 @@ function DoctorSchedulePage() {
                             Office Closed
                           </h3>
                           <p className="text-sm text-red-700 mb-6 max-w-xs">
-                            You marked this day as a holiday. No appointments
-                            scheduled.
+                            You marked this day as a holiday.
                           </p>
                           <button
                             onClick={() => handleRemoveHoliday(viewDate)}
-                            className="px-4 py-2 bg-white text-red-600 font-semibold rounded-lg shadow-sm hover:bg-red-50 transition-colors border border-red-200 text-xs sm:text-sm"
+                            className="px-5 py-2.5 bg-white text-red-600 font-semibold rounded-lg shadow-sm hover:bg-red-50 transition-colors border border-red-200 text-sm"
                           >
                             Restore Availability
                           </button>
@@ -527,7 +507,7 @@ function DoctorSchedulePage() {
                       );
                     } else if (todaysAppointments.length > 0) {
                       return (
-                        <div className="space-y-3 sm:space-y-4">
+                        <div className="space-y-4">
                           {todaysAppointments
                             .sort((a, b) =>
                               a.timeSlot.localeCompare(b.timeSlot)
@@ -535,19 +515,61 @@ function DoctorSchedulePage() {
                             .map((app) => (
                               <div
                                 key={app._id}
-                                className="group bg-white border border-gray-200 rounded-lg sm:rounded-xl p-0 hover:shadow-md transition-all cursor-pointer overflow-hidden"
+                                className="group bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer overflow-hidden flex flex-col sm:flex-row"
                                 onClick={() => {
                                   setSelectedAppointmentForDetails(app);
                                   setShowAppointmentDetailsModal(true);
                                 }}
                               >
-                                {/* Mobile-Optimized Card Layout */}
-                                <div className="flex flex-col sm:flex-row">
-                                  {/* Left: Time Strip (Mobile) / Box (Desktop) */}
-                                  <div className="bg-indigo-50/50 sm:bg-indigo-50 p-2 sm:p-4 sm:w-32 flex flex-row sm:flex-col justify-between sm:justify-center sm:items-center border-b sm:border-b-0 sm:border-r border-indigo-100">
-                                    <div className="flex items-center gap-1 sm:flex-col sm:gap-0">
+                                {/* --- MOBILE LAYOUT START --- 
+                                  Visible only on small screens
+                                */}
+                                <div className="sm:hidden">
+                                  {/* Mobile Header: Time and Status */}
+                                  <div className="bg-gray-50 px-4 py-3 flex justify-between items-center border-b border-gray-100">
+                                    <span className="font-bold text-indigo-700 text-sm">
+                                      {app.timeSlot}
+                                    </span>
+                                    <span
+                                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide
+                                        ${
+                                          app.status === "Confirmed"
+                                            ? "bg-green-100 text-green-700"
+                                            : app.status === "Cancelled"
+                                            ? "bg-red-100 text-red-700"
+                                            : "bg-yellow-100 text-yellow-700"
+                                        }`}
+                                    >
+                                      {app.status}
+                                    </span>
+                                  </div>
+
+                                  {/* Mobile Body: Patient Info */}
+                                  <div className="px-4 py-3">
+                                    <h4 className="font-bold text-gray-900 text-base mb-1">
+                                      {app.patientName}
+                                    </h4>
+                                    <p className="text-xs text-gray-500 flex items-center gap-1">
+                                      <span className="font-medium text-gray-400">
+                                        Service:
+                                      </span>
+                                      {app.services && app.services.length > 0
+                                        ? app.services[0].name
+                                        : "Check details"}
+                                    </p>
+                                  </div>
+
+                                  {/* Mobile Footer: Action Buttons (Large Touch Targets) */}
+                                  <div className="flex border-t border-gray-100">
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        openNotesModal(app);
+                                      }}
+                                      className="flex-1 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 border-r border-gray-100 flex items-center justify-center gap-2"
+                                    >
                                       <svg
-                                        className="w-3.5 h-3.5 text-indigo-500 sm:hidden"
+                                        className="w-4 h-4"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -556,46 +578,64 @@ function DoctorSchedulePage() {
                                           strokeLinecap="round"
                                           strokeLinejoin="round"
                                           strokeWidth={2}
-                                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                         />
                                       </svg>
-                                      <span className="font-bold text-indigo-700 text-xs sm:text-lg whitespace-nowrap">
-                                        {app.timeSlot.split(" - ")[0]}
-                                      </span>
-                                      <span className="text-[10px] text-indigo-400 hidden sm:block mt-1">
-                                        {app.timeSlot.split(" - ")[1]}
-                                      </span>
-                                    </div>
-                                    {/* Status Badge mobile position */}
-                                    <div className="sm:hidden">
-                                      <span
-                                        className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider
-                                                ${
-                                                  app.status === "Confirmed"
-                                                    ? "bg-green-100 text-green-700"
-                                                    : app.status === "Cancelled"
-                                                    ? "bg-red-100 text-red-700"
-                                                    : "bg-yellow-100 text-yellow-700"
-                                                }`}
+                                      Notes
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        openRescheduleModal(app);
+                                      }}
+                                      className="flex-1 py-3 text-sm font-medium text-indigo-600 hover:bg-indigo-50 flex items-center justify-center gap-2"
+                                    >
+                                      <svg
+                                        className="w-4 h-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
                                       >
-                                        {app.status}
-                                      </span>
-                                    </div>
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                      </svg>
+                                      Reschedule
+                                    </button>
+                                  </div>
+                                </div>
+                                {/* --- MOBILE LAYOUT END --- */}
+
+                                {/* --- DESKTOP LAYOUT START --- 
+                                  Visible on sm and larger
+                                */}
+                                <div className="hidden sm:flex flex-row w-full">
+                                  {/* Left: Time Box */}
+                                  <div className="bg-indigo-50 p-4 w-32 flex flex-col justify-center items-center border-r border-indigo-100">
+                                    <span className="font-bold text-indigo-700 text-lg whitespace-nowrap">
+                                      {app.timeSlot.split(" - ")[0]}
+                                    </span>
+                                    <span className="text-[10px] text-indigo-400 mt-1">
+                                      {app.timeSlot.split(" - ")[1]}
+                                    </span>
                                   </div>
 
                                   {/* Center: Details */}
-                                  <div className="p-3 flex-1 flex flex-col justify-center">
+                                  <div className="p-4 flex-1 flex flex-col justify-center">
                                     <div className="flex justify-between items-start">
                                       <div>
-                                        <h4 className="font-bold text-gray-900 text-base sm:text-lg leading-tight mb-1">
+                                        <h4 className="font-bold text-gray-900 text-lg leading-tight mb-1">
                                           {app.services &&
                                           app.services.length > 0
                                             ? app.services[0].name
                                             : "Unknown Service"}
                                         </h4>
-                                        <p className="text-xs sm:text-sm text-gray-500 flex items-center gap-1">
+                                        <p className="text-sm text-gray-500 flex items-center gap-1">
                                           <svg
-                                            className="w-3 h-3.5 sm:w-3.5"
+                                            className="w-3.5 h-3.5"
                                             fill="none"
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
@@ -610,86 +650,54 @@ function DoctorSchedulePage() {
                                           {app.patientName}
                                         </p>
                                       </div>
-                                      {/* Status Badge Desktop Position */}
                                       <span
-                                        className={`hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
-                                                ${
-                                                  app.status === "Confirmed"
-                                                    ? "bg-green-100 text-green-800"
-                                                    : app.status === "Cancelled"
-                                                    ? "bg-red-100 text-red-800"
-                                                    : "bg-yellow-100 text-yellow-800"
-                                                }`}
+                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
+                                          ${
+                                            app.status === "Confirmed"
+                                              ? "bg-green-100 text-green-800"
+                                              : app.status === "Cancelled"
+                                              ? "bg-red-100 text-red-800"
+                                              : "bg-yellow-100 text-yellow-800"
+                                          }`}
                                       >
                                         {app.status}
                                       </span>
                                     </div>
                                   </div>
 
-                                  {/* Right/Bottom: Actions */}
-                                  <div className="border-t sm:border-t-0 sm:border-l border-gray-100 bg-gray-50/30 sm:bg-transparent p-2 sm:p-3 flex sm:flex-col items-center justify-end gap-1.5">
+                                  {/* Right: Actions */}
+                                  <div className="border-l border-gray-100 p-3 flex flex-col items-center justify-center gap-2 bg-gray-50/30">
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         openNotesModal(app);
                                       }}
-                                      className="flex-1 sm:flex-none w-full flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-600 bg-white sm:bg-transparent border border-gray-200 sm:border-transparent rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                                      className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-md hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
                                     >
-                                      <svg
-                                        className="w-3.5 h-3.5 sm:w-4 sm:h-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          strokeWidth={2}
-                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                        />
-                                      </svg>
-                                      <span className="hidden sm:inline">
-                                        Notes
-                                      </span>{" "}
-                                      {/* Hide text on mobile, show on sm and up */}
+                                      Notes
                                     </button>
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         openRescheduleModal(app);
                                       }}
-                                      className="flex-1 sm:flex-none w-full flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-600 bg-white sm:bg-transparent border border-gray-200 sm:border-transparent rounded-md hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                                      className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-md hover:bg-orange-50 hover:text-orange-600 transition-colors"
                                     >
-                                      <svg
-                                        className="w-3.5 h-3.5 sm:w-4 sm:h-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                      >
-                                        <path
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          strokeWidth={2}
-                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                        />
-                                      </svg>
-                                      <span className="hidden sm:inline">
-                                        Reschedule
-                                      </span>{" "}
-                                      {/* Hide text on mobile, show on sm and up */}
+                                      Reschedule
                                     </button>
                                   </div>
                                 </div>
+                                {/* --- DESKTOP LAYOUT END --- */}
                               </div>
                             ))}
                         </div>
                       );
                     } else {
                       return (
-                        <div className="h-full flex flex-col items-center justify-center text-center py-12 px-4 bg-gray-100 rounded-lg shadow-inner border border-gray-200">
-                          <div className="bg-white p-4 rounded-full mb-4 shadow-md border border-gray-200">
+                        <div className="h-full flex flex-col items-center justify-center text-center py-16 px-4 bg-gray-100/50 rounded-xl border-2 border-dashed border-gray-200">
+                          <div className="bg-white p-4 rounded-full mb-4 shadow-sm border border-gray-100">
                             <svg
-                              className="w-10 h-10 text-gray-400"
+                              className="w-8 h-8 text-gray-400"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -702,19 +710,18 @@ function DoctorSchedulePage() {
                               />
                             </svg>
                           </div>
-                          <h3 className="text-xl font-bold text-gray-800 mb-2">
+                          <h3 className="text-lg font-bold text-gray-800 mb-1">
                             No Appointments
                           </h3>
-                          <p className="text-sm text-gray-600 mb-6 max-w-xs">
-                            The schedule is clear for this day. Enjoy your free
-                            time!
+                          <p className="text-sm text-gray-500 mb-6">
+                            Schedule is clear.
                           </p>
                           <button
                             onClick={() => {
                               setSelectedHolidayDate(viewDate);
                               setShowAddHolidayModal(true);
                             }}
-                            className="px-4 py-2 bg-white border border-indigo-200 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition-colors shadow-sm"
+                            className="px-5 py-2 bg-white border border-indigo-200 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition-colors shadow-sm text-sm"
                           >
                             Mark as Day Off
                           </button>
@@ -727,8 +734,8 @@ function DoctorSchedulePage() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 px-4 bg-white rounded-3xl border border-dashed border-gray-300 mx-4 sm:mx-0">
-            <div className="bg-indigo-50 p-5 rounded-full mb-3 animate-pulse">
+          <div className="flex flex-col items-center justify-center py-20 px-4 bg-white rounded-3xl border-2 border-dashed border-gray-200 mx-auto max-w-lg mt-10">
+            <div className="bg-indigo-50 p-5 rounded-full mb-4 animate-pulse">
               <svg
                 className="w-10 h-10 text-indigo-400"
                 fill="none"
@@ -743,16 +750,17 @@ function DoctorSchedulePage() {
                 />
               </svg>
             </div>
-            <h3 className="text-base sm:text-xl font-bold text-gray-900">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-center">
               Select a Doctor
             </h3>
-            <p className="text-gray-500 text-center max-w-xs mt-2 text-xs sm:text-sm">
-              Use the dropdown above to manage schedules.
+            <p className="text-gray-500 text-center mt-2 text-sm">
+              Please choose a doctor from the menu above to view and manage
+              their schedule.
             </p>
           </div>
         )}
 
-        {/* Modals */}
+        {/* Modals - Passed down as before */}
         <AppointmentNotesModal
           showNotesModal={showNotesModal}
           currentAppointmentForNotes={currentAppointmentForNotes}
