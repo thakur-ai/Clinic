@@ -321,23 +321,23 @@ function DoctorSchedulePage() {
             <div className="w-full md:w-72 mt-1 md:mt-0">
               <div className="relative group">
                 <select
-                  className="block w-full pl-4 pr-10 py-2.5 text-sm sm:text-base border-gray-300 bg-gray-50 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 transition-shadow cursor-pointer shadow-sm hover:shadow-md"
+                  className="block w-full pl-4 pr-12 py-3 text-sm sm:text-base border-2 border-gray-200 bg-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-lg hover:border-indigo-300 appearance-none"
                   value={selectedDoctorId}
                   onChange={(e) => {
                     setSelectedDoctorId(e.target.value);
                     setViewDate(new Date());
                   }}
                 >
-                  <option value="">Select a Doctor...</option>
+                  <option value="" className="text-gray-500">Select a Specialist...</option>
                   {doctors.map((doctor) => (
-                    <option key={doctor._id} value={doctor._id}>
+                    <option key={doctor._id} value={doctor._id} className="text-gray-900">
                       {doctor.name} ({doctor.specialization})
                     </option>
                   ))}
                 </select>
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                   <svg
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-600 transition-colors"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
