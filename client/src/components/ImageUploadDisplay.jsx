@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UploadCloud, XCircle } from 'lucide-react';
+import { UploadCloud, XCircle, Image as ImageIcon, ArrowRight } from 'lucide-react';
 
 const ImageUploadDisplay = ({ appointmentId, initialBeforeImage, initialAfterImage, isAdmin, onImageUploadSuccess }) => {
   const [beforeImage, setBeforeImage] = useState(initialBeforeImage);
@@ -46,7 +46,7 @@ const ImageUploadDisplay = ({ appointmentId, initialBeforeImage, initialAfterIma
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`, {
         method: 'PATCH',
         headers: {
-          ...(localStorage.getItem('adminToken') && { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }) // Only add if token exists
+          ...(localStorage.getItem('adminToken') && { 'Authorization': `Bearer ${localStorage.getItem('adminToken')}` }) 
         },
         body: formData,
       });
@@ -56,14 +56,13 @@ const ImageUploadDisplay = ({ appointmentId, initialBeforeImage, initialAfterIma
       }
 
       const data = await response.json();
-      // Update the displayed image URL with the new path from the backend
       if (type === 'before') {
         setImage(data.appointment.beforeTreatmentImage);
       } else {
         setImage(data.appointment.afterTreatmentImage);
       }
-      setFile(null); // Clear the selected file input
-      onImageUploadSuccess && onImageUploadSuccess(); // Callback to refresh parent data if needed
+      setFile(null); 
+      onImageUploadSuccess && onImageUploadSuccess(); 
     } catch (err) {
       console.error(`Error uploading ${type} image:`, err);
       setError(err.message);
@@ -72,104 +71,135 @@ const ImageUploadDisplay = ({ appointmentId, initialBeforeImage, initialAfterIma
     }
   };
 
-  const serverBaseUrl = `${process.env.REACT_APP_API_BASE_URL}`; // Define your backend server base URL
+  const serverBaseUrl = `${process.env.REACT_APP_API_BASE_URL}`; 
 
-  return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-      <div className="flex items-center space-x-2 mb-5 border-b border-gray-100 pb-3">
-        <UploadCloud className="text-purple-600" size={20} />
-        <h2 className="text-lg font-bold text-gray-800">Before & After Images</h2>
+  // Helper component for the image card to avoid repetition in UI
+  const ImageSection = ({ title, image, file, loading, error, type }) => (
+    <div className="flex flex-col h-full">
+      <div className="flex items-center gap-2 mb-3">
+        <span className={`w-2 h-2 rounded-full ${type === 'before' ? 'bg-amber-400' : 'bg-emerald-400'}`}></span>
+        <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide">{title}</h3>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Before Image Section */}
-        <div>
-          <h3 className="text-md font-semibold text-gray-700 mb-3">Before Treatment</h3>
-          <div className="relative w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border border-gray-300">
-            {beforeImage ? (
-              <img src={`${serverBaseUrl}${beforeImage}`} alt="Before Treatment" className="object-cover w-full h-full" />
-            ) : (
-              <span className="text-gray-400 text-sm">No Before Image</span>
-            )}
+      <div className={`group relative w-full aspect-[4/3] bg-slate-50 rounded-2xl overflow-hidden transition-all duration-300 ${!image ? 'border-2 border-dashed border-slate-300 hover:border-purple-300' : 'border border-slate-200 shadow-sm'}`}>
+        {image ? (
+          <div className="relative w-full h-full">
+            <img 
+              src={`${serverBaseUrl}${image}`} 
+              alt={title} 
+              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105" 
+            />
+            {/* Overlay gradient for depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
           </div>
-          {isAdmin && (
-            <div className="mt-4 flex flex-col sm:flex-row gap-2">
-              <input
-                type="file"
-                id="beforeImageUpload"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, 'before')}
-                className="hidden"
-              />
-              <label
-                htmlFor="beforeImageUpload"
-                className="flex-1 cursor-pointer bg-blue-50 text-blue-700 border border-blue-200 rounded-md px-4 py-2 text-sm font-medium hover:bg-blue-100 transition-colors flex items-center justify-center"
-              >
-                <UploadCloud size={16} className="mr-2" /> Select Before Image
-              </label>
-              {beforeFile && (
-                <button
-                  onClick={() => uploadImage('before')}
-                  className="flex-1 bg-blue-600 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50"
-                  disabled={loadingBefore}
-                >
-                  {loadingBefore ? 'Uploading...' : 'Upload Before Image'}
-                </button>
+        ) : (
+          <div className="flex flex-col items-center justify-center w-full h-full text-slate-400">
+             <div className="bg-white p-3 rounded-full shadow-sm mb-2">
+                <ImageIcon size={24} className="text-slate-300" />
+             </div>
+             <span className="text-xs font-medium">No Image Uploaded</span>
+          </div>
+        )}
+      </div>
+
+      {isAdmin && (
+        <div className="mt-4 space-y-3">
+          <input
+            type="file"
+            id={`${type}ImageUpload`}
+            accept="image/*"
+            onChange={(e) => handleFileChange(e, type)}
+            className="hidden"
+          />
+          <label
+            htmlFor={`${type}ImageUpload`}
+            className={`w-full cursor-pointer flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200 text-sm font-semibold
+              ${file 
+                ? 'bg-purple-50 border-purple-200 text-purple-700' 
+                : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300'
+              }`}
+          >
+            {file ? (
+              <span className="truncate max-w-[200px]">{file.name}</span>
+            ) : (
+              <>
+                <UploadCloud size={16} />
+                <span>Select Photo</span>
+              </>
+            )}
+          </label>
+
+          {file && (
+            <button
+              onClick={() => uploadImage(type)}
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl px-4 py-2.5 text-sm font-semibold shadow-md shadow-purple-200 transition-all active:scale-[0.98] flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                 <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    Uploading...
+                 </span>
+              ) : (
+                 'Confirm Upload'
               )}
-            </div>
+            </button>
           )}
-          {errorBefore && (
-            <p className="text-red-500 text-sm mt-2 flex items-center">
-              <XCircle size={16} className="mr-1" /> Error: {errorBefore}
-            </p>
+
+          {error && (
+            <div className="p-3 rounded-lg bg-red-50 border border-red-100 flex items-start gap-2 text-red-600 text-xs animate-in slide-in-from-top-2">
+              <XCircle size={14} className="shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
           )}
         </div>
+      )}
+    </div>
+  );
 
-        {/* After Image Section */}
-        <div>
-          <h3 className="text-md font-semibold text-gray-700 mb-3">After Treatment</h3>
-          <div className="relative w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border border-gray-300">
-            {afterImage ? (
-              <img src={`${serverBaseUrl}${afterImage}`} alt="After Treatment" className="object-cover w-full h-full" />
-            ) : (
-              <span className="text-gray-400 text-sm">No After Image</span>
-            )}
+  return (
+    <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden">
+      
+      {/* Header */}
+      <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+        <div className="bg-purple-100 p-2 rounded-lg text-purple-600">
+           <UploadCloud size={20} />
+        </div>
+        <h2 className="text-lg font-bold text-slate-800">Treatment Gallery</h2>
+      </div>
+
+      <div className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+          
+          {/* Desktop Arrow Divider */}
+          <div className="hidden md:flex absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-sm border border-slate-100 text-slate-300">
+             <ArrowRight size={20} />
           </div>
-          {isAdmin && (
-            <div className="mt-4 flex flex-col sm:flex-row gap-2">
-              <input
-                type="file"
-                id="afterImageUpload"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, 'after')}
-                className="hidden"
-              />
-              <label
-                htmlFor="afterImageUpload"
-                className="flex-1 cursor-pointer bg-blue-50 text-blue-700 border border-blue-200 rounded-md px-4 py-2 text-sm font-medium hover:bg-blue-100 transition-colors flex items-center justify-center"
-              >
-                <UploadCloud size={16} className="mr-2" /> Select After Image
-              </label>
-              {afterFile && (
-                <button
-                  onClick={() => uploadImage('after')}
-                  className="flex-1 bg-blue-600 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50"
-                  disabled={loadingAfter}
-                >
-                  {loadingAfter ? 'Uploading...' : 'Upload After Image'}
-                </button>
-              )}
-            </div>
-          )}
-          {errorAfter && (
-            <p className="text-red-500 text-sm mt-2 flex items-center">
-              <XCircle size={16} className="mr-1" /> Error: {errorAfter}
-            </p>
-          )}
+
+          {/* Before Section */}
+          <ImageSection 
+             title="Before Treatment" 
+             image={beforeImage} 
+             file={beforeFile} 
+             loading={loadingBefore} 
+             error={errorBefore} 
+             type="before" 
+          />
+
+          {/* After Section */}
+          <ImageSection 
+             title="After Treatment" 
+             image={afterImage} 
+             file={afterFile} 
+             loading={loadingAfter} 
+             error={errorAfter} 
+             type="after" 
+          />
+          
         </div>
       </div>
     </div>
   );
 };
-//op
+
 export default ImageUploadDisplay;
