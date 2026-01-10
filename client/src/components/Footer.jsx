@@ -1,6 +1,6 @@
 import React from "react";
-import { FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { FiPhoneCall } from "react-icons/fi";
+import { FaInstagram, FaLinkedinIn} from "react-icons/fa";
+import { FiPhoneCall} from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
 
 const Footer = () => {
