@@ -1,12 +1,27 @@
 import React from 'react';
 
 const Badge = ({ text, color }) => {
+  // Enhanced color mappings with deeper borders and subtle colored shadows
   const colors = {
-    red: "bg-red-50 text-red-700 border-red-100",
-    blue: "bg-blue-50 text-blue-700 border-blue-100",
-    gray: "bg-gray-100 text-gray-700 border-gray-200",
+    red: "bg-red-50 text-red-700 border-red-200 shadow-red-100",
+    blue: "bg-blue-50 text-blue-700 border-blue-200 shadow-blue-100",
+    gray: "bg-slate-100 text-slate-600 border-slate-200 shadow-slate-100",
   };
-  return <span className={`text-xs px-2.5 py-1 rounded-md border font-medium ${colors[color] || colors.gray}`}>{text}</span>;
+
+  const activeClasses = colors[color] || colors.gray;
+
+  return (
+    <span 
+      className={`
+        inline-flex items-center justify-center px-3 py-1 
+        text-xs font-bold rounded-full border shadow-sm 
+        transition-transform duration-200 hover:scale-105 select-none
+        ${activeClasses}
+      `}
+    >
+      {text}
+    </span>
+  );
 };
-//op
+
 export default Badge;

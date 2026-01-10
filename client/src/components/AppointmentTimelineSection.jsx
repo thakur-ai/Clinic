@@ -1,6 +1,6 @@
 import React from 'react';
-import { Clock } from 'lucide-react';
-import TimelineItem from './TimelineItem'; // Assuming TimelineItem is in the same components directory
+import { Clock, CalendarX, ArrowRight } from 'lucide-react';
+import TimelineItem from './TimelineItem'; 
 
 const AppointmentTimelineSection = ({
   appointmentsData,
@@ -8,35 +8,73 @@ const AppointmentTimelineSection = ({
   handleRebookClick
 }) => {
   return (
-    <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 p-5 md:p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-2">
-          <Clock className="text-blue-600" size={20} />
-          <h2 className="text-lg font-bold text-gray-800">Appointments</h2>
+    <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden h-full flex flex-col">
+      
+      {/* Header */}
+      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-50 bg-slate-50/30">
+        <div className="flex items-center gap-3">
+          <div className="bg-blue-50 p-2 rounded-lg text-blue-600">
+             <Clock size={20} />
+          </div>
+          <h2 className="text-lg font-bold text-slate-800">Appointment History</h2>
         </div>
-        <button className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md hover:bg-blue-100 transition-colors">View All</button>
+        <button className="text-xs font-bold text-blue-600 bg-white border border-blue-100 px-3 py-1.5 rounded-full hover:bg-blue-50 hover:border-blue-200 transition-all flex items-center gap-1 group">
+           View All <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform"/>
+        </button>
       </div>
-      <div className="relative border-l-2 border-gray-100 ml-2 md:ml-3 space-y-8 pb-2">
-        {appointmentsData.length > 0 ? appointmentsData.map((app) => (
-            <div key={app._id} className="relative group">
-              <TimelineItem 
-                date={app.date ? new Date(app.date).toLocaleDateString() : 'N/A'}
-                title={app.service?.name}
-                doctor={app.doctor?.name}
-                status={app.status?.toLowerCase() || 'N/A'}
-              />
-              <div className="absolute top-0 right-0 p-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                {app.status?.toLowerCase() !== 'completed' && (
-                  <button onClick={() => handleRescheduleClick(app)} className="px-3 py-1 rounded-xl bg-indigo-500 text-white text-xs font-medium hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-0 shadow-sm transition-all active:scale-95">Reschedule</button>
-                )}
-                <button onClick={() => handleRebookClick(app)} className="px-3 py-1 rounded-xl bg-green-500 text-white text-xs font-medium hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:ring-offset-0 shadow-sm transition-all active:scale-95">Rebook</button>
+
+      {/* Timeline Content */}
+      <div className="p-6 flex-1 overflow-y-auto custom-scrollbar max-h-[500px]">
+        <div className="relative border-l-2 border-slate-100 ml-3 space-y-8 pb-2">
+          {appointmentsData.length > 0 ? (
+            appointmentsData.map((app) => (
+              <div key={app._id} className="relative group">
+                
+                {/* The Timeline Row */}
+                <TimelineItem 
+                  date={app.date ? new Date(app.date).toLocaleDateString() : 'N/A'}
+                  title={app.service?.name}
+                  doctor={app.doctor?.name}
+                  status={app.status?.toLowerCase() || 'N/A'}
+                />
+
+                {/* Actions Overlay/Container 
+                    - Mobile: Always visible, stacked below the item
+                    - Desktop: Absolute positioned, visible on hover
+                */}
+                <div className="
+                    mt-3 pl-10 flex gap-2 flex-wrap
+                    md:mt-0 md:pl-0 md:absolute md:top-3 md:right-3 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:z-20
+                ">
+                    {app.status?.toLowerCase() !== 'completed' && (
+                      <button 
+                        onClick={() => handleRescheduleClick(app)} 
+                        className="px-3 py-1.5 rounded-lg bg-white border border-indigo-100 text-indigo-600 text-xs font-semibold hover:bg-indigo-50 hover:border-indigo-200 shadow-sm transition-all active:scale-95"
+                      >
+                        Reschedule
+                      </button>
+                    )}
+                    <button 
+                        onClick={() => handleRebookClick(app)} 
+                        className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white border border-emerald-600 text-xs font-semibold hover:bg-emerald-700 shadow-sm shadow-emerald-200 transition-all active:scale-95"
+                    >
+                        Rebook
+                    </button>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-center ml-[-14px]">
+               <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
+                 <CalendarX className="text-slate-300" size={24} />
+               </div>
+               <p className="text-sm font-medium text-slate-500">No appointments found.</p>
             </div>
-          )) : <div className="text-sm text-gray-500 italic px-4 py-2">No data available.</div>
-        }
+          )}
+        </div>
       </div>
     </div>
   );
 };
-//op
+
 export default AppointmentTimelineSection;
