@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { FileText, Repeat } from "lucide-react";
+import { FileText, LayoutDashboard, ShieldCheck } from "lucide-react";
 import ReappointmentModal from "./admin/components/ReappointmentModal";
 import RescheduleAppointmentModal from "./admin/components/RescheduleAppointmentModal";
 import ImageUploadDisplay from "./components/ImageUploadDisplay";
 import DocumentUploadDisplay from "./components/DocumentUploadDisplay";
-import InfoRow from "./components/InfoRow";
-import Badge from "./components/Badge";
-import TimelineItem from "./components/TimelineItem";
 import useParallaxEffect from "./hooks/useParallaxEffect";
 import ReportLandingPage from "./components/ReportLandingPage";
 import ReportHeader from "./components/ReportHeader";
@@ -29,11 +26,9 @@ const UserReportPage = () => {
 
   // Modals
   const [showReappointmentModal, setShowReappointmentModal] = useState(false);
-  const [selectedAppointmentToRebook, setSelectedAppointmentToRebook] =
-    useState(null);
+  const [selectedAppointmentToRebook, setSelectedAppointmentToRebook] = useState(null);
   const [showRescheduleModal, setShowRescheduleModal] = useState(false);
-  const [currentAppointmentForReschedule, setCurrentAppointmentForReschedule] =
-    useState(null);
+  const [currentAppointmentForReschedule, setCurrentAppointmentForReschedule] = useState(null);
   const [newRescheduleDate, setNewRescheduleDate] = useState(null);
   const [newRescheduleTime, setNewRescheduleTime] = useState("");
 
@@ -52,10 +47,8 @@ const UserReportPage = () => {
   const [editableDentalProblems, setEditableDentalProblems] = useState([]);
   const [editableTreatments, setEditableTreatments] = useState([]);
   const [editableMedications, setEditableMedications] = useState("");
-  const [editablePastSurgeries, setEditablePastSurgeries] = useState([]);
 
-  const primaryAppointment =
-    appointmentsData.length > 0 ? appointmentsData[0] : null;
+  const primaryAppointment = appointmentsData.length > 0 ? appointmentsData[0] : null;
 
   // Parallax/cursor effects
   const { mousePos, xOffset, yOffset } = useParallaxEffect(40, true);
@@ -97,9 +90,7 @@ const UserReportPage = () => {
 
   const addToRecentSearches = (id) => {
     if (!id) return;
-    let history = JSON.parse(
-      localStorage.getItem("recentReportSearches") || "[]"
-    );
+    let history = JSON.parse(localStorage.getItem("recentReportSearches") || "[]");
     history = history.filter((item) => item !== id);
     history.unshift(id);
     history = history.slice(0, 3);
@@ -213,16 +204,9 @@ const UserReportPage = () => {
 
   const handleEditMedicalHistory = () => {
     if (primaryAppointment && primaryAppointment.medicalHistory) {
-      setEditableDentalProblems(
-        primaryAppointment.medicalHistory.dentalProblems || []
-      );
+      setEditableDentalProblems(primaryAppointment.medicalHistory.dentalProblems || []);
       setEditableTreatments(primaryAppointment.medicalHistory.treatments || []);
-      setEditableMedications(
-        primaryAppointment.medicalHistory.medications || ""
-      );
-      setEditablePastSurgeries(
-        primaryAppointment.medicalHistory.pastSurgeries || []
-      );
+      setEditableMedications(primaryAppointment.medicalHistory.medications || "");
     }
     setIsEditingMedicalHistory(true);
   };
@@ -247,7 +231,6 @@ const UserReportPage = () => {
               dentalProblems: editableDentalProblems,
               treatments: editableTreatments,
               medications: editableMedications,
-              pastSurgeries: editablePastSurgeries,
             },
           }),
         }
@@ -308,23 +291,22 @@ const UserReportPage = () => {
     fetchAppointmentData();
   };
 
-  // ==================================================================================
-  // RENDER: LOADING
-  // ==================================================================================
+  // --- Render States ---
+
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
-        <p className="text-lg text-gray-600 font-medium">
-          Retrieving records...
-        </p>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="flex flex-col items-center animate-pulse">
+          <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4 shadow-lg">
+             <LayoutDashboard size={32} />
+          </div>
+          <h2 className="text-xl font-bold text-slate-700">Retrieving Records...</h2>
+          <p className="text-slate-500 text-sm mt-1">Please wait while we fetch the patient data.</p>
+        </div>
       </div>
     );
   }
 
-  // ==================================================================================
-  // RENDER: LANDING / NO DATA STATE
-  // ==================================================================================
   if (error || !primaryAppointment) {
     return (
       <ReportLandingPage
@@ -340,50 +322,38 @@ const UserReportPage = () => {
     );
   }
 
-  // ==================================================================================
-  // RENDER: MAIN REPORT CONTENT (Enhanced for Mobile)
-  // ==================================================================================
+  // --- Main Content ---
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-white pb-10 font-sans text-gray-800 relative overflow-x-hidden selection:bg-blue-100 pt-10 md:pt-5">
-      {/* --- 1. BACKGROUND EFFECTS LAYER --- */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-white pb-20 font-sans text-gray-800 relative overflow-x-hidden selection:bg-blue-100">
+      
+      {/* Background FX */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light"></div>
-
-        {/* Spotlight Gradient - Disabled heavily on mobile to save performance */}
         <div
           className="hidden md:block absolute inset-0 transition-opacity duration-300"
           style={{
             background: `radial-gradient(600px at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.1), transparent 80%)`,
           }}
         ></div>
-
-        {/* Parallax Blobs - Static on mobile, animated on desktop */}
         <div
           className="absolute top-0 left-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-blue-200/30 rounded-full blur-[80px] md:blur-[100px] transition-transform duration-100 ease-out"
           style={{
-            transform:
-              window.innerWidth > 768
-                ? `translate(${xOffset * -1.5}px, ${yOffset * -1.5}px)`
-                : "none",
+            transform: window.innerWidth > 768 ? `translate(${xOffset * -1.5}px, ${yOffset * -1.5}px)` : "none",
           }}
         ></div>
-
         <div
           className="absolute bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-indigo-200/30 rounded-full blur-[80px] md:blur-[120px] transition-transform duration-100 ease-out"
           style={{
-            transform:
-              window.innerWidth > 768
-                ? `translate(${xOffset}px, ${yOffset}px)`
-                : "none",
+            transform: window.innerWidth > 768 ? `translate(${xOffset}px, ${yOffset}px)` : "none",
           }}
         ></div>
       </div>
 
-      {/* --- 2. FOREGROUND CONTENT (Z-Index 10) --- */}
+      {/* Foreground Content */}
       <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Header Section - Passed props to ensure internal responsive logic works */}
-        <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        
+        {/* Header */}
+        <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all duration-300">
           <ReportHeader
             primaryAppointment={primaryAppointment}
             isAdmin={isAdmin}
@@ -392,23 +362,17 @@ const UserReportPage = () => {
           />
         </div>
 
-        {/* Main Content Grid */}
-        <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 pt-16 pb-4 md:py-6 w-full">
-          {/* Responsive Layout Strategy:
-            - Mobile (< lg): Single column stack. Order logic: Profile first, then History, then Timeline, then Uploads.
-            - Desktop (>= lg): Two columns. Left (Profile + History), Right (Timeline + Uploads).
-           */}
-
+        {/* Content Grid */}
+        <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-            {/* LEFT COLUMN (Desktop) / TOP STACK (Mobile) */}
+            
+            {/* Left Column (Profile & History) */}
             <div className="lg:col-span-1 space-y-6">
-              {/* Patient Profile Card */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden">
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden transition-all hover:shadow-md">
                 <PatientProfileCard primaryAppointment={primaryAppointment} />
               </div>
 
-              {/* Medical History */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden">
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden transition-all hover:shadow-md">
                 <MedicalHistorySection
                   primaryAppointment={primaryAppointment}
                   isAdmin={isAdmin}
@@ -420,20 +384,15 @@ const UserReportPage = () => {
                   setEditableTreatments={setEditableTreatments}
                   editableMedications={editableMedications}
                   setEditableMedications={setEditableMedications}
-                  editablePastSurgeries={editablePastSurgeries}
-                  setEditablePastSurgeries={setEditablePastSurgeries}
-                  handleCancelEditMedicalHistory={
-                    handleCancelEditMedicalHistory
-                  }
+                  handleCancelEditMedicalHistory={handleCancelEditMedicalHistory}
                   handleSaveMedicalHistory={handleSaveMedicalHistory}
                 />
               </div>
             </div>
 
-            {/* RIGHT COLUMN (Desktop) / BOTTOM STACK (Mobile) */}
+            {/* Right Column (Timeline & Media) */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Appointments Summary */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden">
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden transition-all hover:shadow-md">
                 <AppointmentTimelineSection
                   appointmentsData={appointmentsData}
                   handleRescheduleClick={handleRescheduleClick}
@@ -441,27 +400,28 @@ const UserReportPage = () => {
                 />
               </div>
 
-              {/* Documents */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden">
-                <DocumentUploadDisplay
-                  appointmentId={primaryAppointment?._id}
-                  initialDocuments={documents}
-                  isAdmin={false}
-                  onDocumentUploadSuccess={fetchAppointmentData}
-                />
-              </div>
+              <div className="grid grid-cols-1 gap-6">
+                 <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden transition-all hover:shadow-md">
+                    <DocumentUploadDisplay
+                        appointmentId={primaryAppointment?._id}
+                        initialDocuments={documents}
+                        isAdmin={false}
+                        onDocumentUploadSuccess={fetchAppointmentData}
+                    />
+                 </div>
 
-              {/* Images */}
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden">
-                <ImageUploadDisplay
-                  appointmentId={primaryAppointment?._id}
-                  initialBeforeImage={beforeTreatmentImage}
-                  initialAfterImage={afterTreatmentImage}
-                  isAdmin={isAdmin}
-                  onImageUploadSuccess={fetchAppointmentData}
-                />
+                 <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-white/50 overflow-hidden transition-all hover:shadow-md">
+                    <ImageUploadDisplay
+                        appointmentId={primaryAppointment?._id}
+                        initialBeforeImage={beforeTreatmentImage}
+                        initialAfterImage={afterTreatmentImage}
+                        isAdmin={isAdmin}
+                        onImageUploadSuccess={fetchAppointmentData}
+                    />
+                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -470,9 +430,8 @@ const UserReportPage = () => {
           <ReappointmentModal
             isOpen={showReappointmentModal}
             onClose={() => setShowReappointmentModal(false)}
-            appointment={selectedAppointmentToRebook}
-            onAppointmentBooked={handleRebookSuccess}
             patientData={primaryAppointment}
+            onAppointmentBooked={handleRebookSuccess}
           />
         )}
 
