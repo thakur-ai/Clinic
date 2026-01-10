@@ -63,7 +63,7 @@ function AddHolidayModal({
                   Mark Holiday
                 </h2>
                 <p className="text-sm text-gray-500 font-medium">
-                  Dr. {doctorName}
+                   {doctorName}
                 </p>
               </div>
             </div>
