@@ -13,6 +13,8 @@ const MedicalHistorySection = ({
   setEditableTreatments,
   editableMedications,
   setEditableMedications,
+  editablePastSurgeries,
+  setEditablePastSurgeries,
   handleCancelEditMedicalHistory,
   handleSaveMedicalHistory
 }) => {
@@ -76,12 +78,26 @@ const MedicalHistorySection = ({
               <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1">
                 Medications
               </label>
-              <textarea 
-                value={editableMedications} 
-                onChange={(e) => setEditableMedications(e.target.value)} 
-                className="block w-full px-4 py-3 rounded-xl border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none text-sm resize-none shadow-inner" 
+              <textarea
+                value={editableMedications}
+                onChange={(e) => setEditableMedications(e.target.value)}
+                className="block w-full px-4 py-3 rounded-xl border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none text-sm resize-none shadow-inner"
                 rows="3"
                 placeholder="List current medications..."
+              ></textarea>
+            </div>
+
+            {/* Edit: Past Surgeries */}
+            <div>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 ml-1">
+                Past Surgeries <span className="text-slate-300 font-normal lowercase">(comma-separated)</span>
+              </label>
+              <textarea
+                value={editablePastSurgeries.join(', ')}
+                onChange={(e) => setEditablePastSurgeries(e.target.value.split(',').map(item => item.trim()).filter(item => item !== ''))}
+                className="block w-full px-4 py-3 rounded-xl border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none text-sm resize-none shadow-inner"
+                rows="3"
+                placeholder="e.g. Appendectomy, Tonsillectomy"
               ></textarea>
             </div>
 
@@ -159,6 +175,28 @@ const MedicalHistorySection = ({
                     <span className="text-slate-400 italic">No medications listed.</span>
                   )}
                 </p>
+              </div>
+            </div>
+
+            <div className="border-t border-slate-50"></div>
+
+            {/* View: Past Surgeries */}
+            <div>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                Past Surgeries
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {primaryAppointment?.medicalHistory?.pastSurgeries?.length > 0 ? (
+                  primaryAppointment.medicalHistory.pastSurgeries.map((s, i) => (
+                    <div className="transform transition-transform hover:scale-105" key={i}>
+                        <Badge text={s} color="purple" />
+                    </div>
+                  ))
+                ) : (
+                  <span className="px-3 py-1 bg-slate-50 text-slate-400 rounded-lg text-sm border border-slate-100 italic">
+                    No records found
+                  </span>
+                )}
               </div>
             </div>
 

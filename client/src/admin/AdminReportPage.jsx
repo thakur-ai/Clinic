@@ -60,6 +60,7 @@ const AdminReportPage = () => {
   const [editableDentalProblems, setEditableDentalProblems] = useState([]);
   const [editableTreatments, setEditableTreatments] = useState([]);
   const [editableMedications, setEditableMedications] = useState('');
+  const [editablePastSurgeries, setEditablePastSurgeries] = useState([]);
 
   const handleEditPatientDetails = () => {
     if (primaryAppointment) { 
@@ -122,20 +123,22 @@ const AdminReportPage = () => {
   };
 
   const handleEditMedicalHistory = () => {
-    if (primaryAppointment && primaryAppointment.medicalHistory) { 
+    if (primaryAppointment && primaryAppointment.medicalHistory) {
       setEditableDentalProblems(primaryAppointment.medicalHistory.dentalProblems || []);
       setEditableTreatments(primaryAppointment.medicalHistory.treatments || []);
       setEditableMedications(primaryAppointment.medicalHistory.medications || '');
+      setEditablePastSurgeries(primaryAppointment.medicalHistory.pastSurgeries || []);
     }
     setIsEditingMedicalHistory(true);
   };
 
   const handleCancelEditMedicalHistory = () => {
     setIsEditingMedicalHistory(false);
-    if (primaryAppointment && primaryAppointment.medicalHistory) { 
+    if (primaryAppointment && primaryAppointment.medicalHistory) {
       setEditableDentalProblems(primaryAppointment.medicalHistory.dentalProblems || []);
       setEditableTreatments(primaryAppointment.medicalHistory.treatments || []);
       setEditableMedications(primaryAppointment.medicalHistory.medications || '');
+      setEditablePastSurgeries(primaryAppointment.medicalHistory.pastSurgeries || []);
     }
   };
 
@@ -153,6 +156,7 @@ const AdminReportPage = () => {
             dentalProblems: editableDentalProblems,
             treatments: editableTreatments,
             medications: editableMedications,
+            pastSurgeries: editablePastSurgeries,
           },
         }),
       });
@@ -162,7 +166,7 @@ const AdminReportPage = () => {
       }
 
       fetchAppointmentData();
-      setIsEditingMedicalHistory(false); 
+      setIsEditingMedicalHistory(false);
     } catch (err) {
       console.error('Error saving medical history:', err);
       setError(err);
@@ -386,6 +390,7 @@ const AdminReportPage = () => {
 
             <MedicalHistorySection
               primaryAppointment={primaryAppointment}
+              isAdmin={isAdmin}
               isEditingMedicalHistory={isEditingMedicalHistory}
               editableDentalProblems={editableDentalProblems}
               setEditableDentalProblems={setEditableDentalProblems}
@@ -393,6 +398,8 @@ const AdminReportPage = () => {
               setEditableTreatments={setEditableTreatments}
               editableMedications={editableMedications}
               setEditableMedications={setEditableMedications}
+              editablePastSurgeries={editablePastSurgeries}
+              setEditablePastSurgeries={setEditablePastSurgeries}
               handleEditMedicalHistory={handleEditMedicalHistory}
               handleSaveMedicalHistory={handleSaveMedicalHistory}
               handleCancelEditMedicalHistory={handleCancelEditMedicalHistory}

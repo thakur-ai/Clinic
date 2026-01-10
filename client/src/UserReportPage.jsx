@@ -52,6 +52,7 @@ const UserReportPage = () => {
   const [editableDentalProblems, setEditableDentalProblems] = useState([]);
   const [editableTreatments, setEditableTreatments] = useState([]);
   const [editableMedications, setEditableMedications] = useState("");
+  const [editablePastSurgeries, setEditablePastSurgeries] = useState([]);
 
   const primaryAppointment =
     appointmentsData.length > 0 ? appointmentsData[0] : null;
@@ -219,6 +220,9 @@ const UserReportPage = () => {
       setEditableMedications(
         primaryAppointment.medicalHistory.medications || ""
       );
+      setEditablePastSurgeries(
+        primaryAppointment.medicalHistory.pastSurgeries || []
+      );
     }
     setIsEditingMedicalHistory(true);
   };
@@ -243,6 +247,7 @@ const UserReportPage = () => {
               dentalProblems: editableDentalProblems,
               treatments: editableTreatments,
               medications: editableMedications,
+              pastSurgeries: editablePastSurgeries,
             },
           }),
         }
@@ -415,6 +420,8 @@ const UserReportPage = () => {
                   setEditableTreatments={setEditableTreatments}
                   editableMedications={editableMedications}
                   setEditableMedications={setEditableMedications}
+                  editablePastSurgeries={editablePastSurgeries}
+                  setEditablePastSurgeries={setEditablePastSurgeries}
                   handleCancelEditMedicalHistory={
                     handleCancelEditMedicalHistory
                   }
