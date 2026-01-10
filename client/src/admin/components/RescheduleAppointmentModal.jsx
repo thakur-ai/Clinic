@@ -1,6 +1,6 @@
-import React from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function RescheduleAppointmentModal({
   showRescheduleModal,
@@ -11,116 +11,252 @@ function RescheduleAppointmentModal({
   setNewRescheduleTime,
   handleReschedule,
   setShowRescheduleModal,
-  doctorHolidays // Add doctorHolidays prop
+  doctorHolidays,
 }) {
   if (!showRescheduleModal || !currentAppointmentForReschedule) return null;
 
+  // Logic to display ID
+  const appointmentIdDisplay = currentAppointmentForReschedule._id
+    ? currentAppointmentForReschedule._id.substring(0, 8) + "..."
+    : "N/A";
+
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50" role="dialog" aria-modal="true">
-      <div className="bg-white p-6 sm:p-8 rounded-lg shadow-xl max-w-md w-full mx-4 sm:mx-0 overflow-y-auto" style={{ maxHeight: '90vh' }}>
+    // Backdrop: Modern blur effect with dark overlay
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm transition-opacity duration-300">
+      {/* Modal Container */}
+      <div
+        className="bg-white w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200"
+        role="dialog"
+        aria-modal="true"
+        style={{ maxHeight: "90vh" }}
+      >
+        {/* Custom CSS for DatePicker to match the modern theme */}
         <style>{`
-          .reschedule-datepicker {
-            width: 100%;
-            font-family: inherit;
-            border: 1px solid #d1d5db; /* border-gray-300 */
-            border-radius: 0.375rem; /* rounded-md */
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
-            padding: 0.5rem; /* p-2 */
+          .custom-datepicker-wrapper {
+             width: 100%;
           }
+          .custom-datepicker-wrapper .react-datepicker-wrapper {
+             width: 100%;
+          }
+          .reschedule-datepicker-input {
+             width: 100%;
+             padding-left: 2.5rem; /* Space for icon */
+             padding-right: 1rem;
+             padding-top: 0.75rem;
+             padding-bottom: 0.75rem;
+             border-radius: 0.75rem;
+             border: 1px solid #e2e8f0;
+             background-color: #f8fafc;
+             color: #0f172a;
+             font-size: 0.875rem;
+             transition: all 0.2s;
+             outline: none;
+          }
+          .reschedule-datepicker-input:focus {
+             background-color: #ffffff;
+             border-color: #6366f1; /* Indigo-500 */
+             box-shadow: 0 0 0 2px #c7d2fe; /* Indigo-200 */
+          }
+          
+          /* Calendar Styles Override */
           .react-datepicker {
-            border: none;
-            box-shadow: none;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-          }
-          .react-datepicker__month-container {
-              width: 100%;
-              max-width: 300px; /* Adjust for smaller mobile modal */
+             font-family: inherit;
+             border: 1px solid #e2e8f0;
+             border-radius: 0.75rem;
+             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
           }
           .react-datepicker__header {
-            background-color: white;
-            border-bottom: 1px solid #f3f4f6;
-            padding-top: 0.5rem; /* Smaller padding */
+             background-color: #f1f5f9;
+             border-bottom: 1px solid #e2e8f0;
+             border-top-left-radius: 0.75rem;
+             border-top-right-radius: 0.75rem;
+             padding-top: 0.75rem;
           }
-          .react-datepicker__day-name, .react-datepicker__day {
-            width: 2rem; /* Smaller day width */
-            height: 2rem; /* Smaller day height */
-            line-height: 2rem;
-            margin: 0.1rem; /* Smaller margin */
-            font-size: 0.8rem; /* Smaller font size */
+          .react-datepicker__day--selected, 
+          .react-datepicker__day--keyboard-selected {
+             background-color: #4f46e5 !important; /* Indigo-600 */
+             color: white !important;
+             border-radius: 0.5rem;
           }
-          @media (max-width: 500px) {
-              .react-datepicker {
-                  max-width: 250px; /* Even smaller overall width for the calendar */
-                  padding: 0;
-                  margin: 0 auto;
-              }
-              .react-datepicker__month-container {
-                  max-width: 100%; 
-              }
-              .react-datepicker__day-name, .react-datepicker__day {
-                  width: 1.5rem;
-                  height: 1.5rem;
-                  line-height: 1.5rem;
-                  font-size: 0.65rem;
-                  margin: 0.05rem;
-              }
-              .react-datepicker__header {
-                  padding-top: 0.2rem;
-              }
-              .react-datepicker__navigation--previous,
-              .react-datepicker__navigation--next {
-                  top: 0.3rem;
-                  padding: 0.1rem;
-              }
+          .react-datepicker__day:hover {
+             border-radius: 0.5rem;
+             background-color: #e0e7ff;
+          }
+          .react-datepicker__current-month {
+             font-weight: 700;
+             color: #1e293b;
+          }
+          .react-datepicker__day-name {
+             color: #64748b;
           }
         `}</style>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Reschedule Appointment ID: {currentAppointmentForReschedule._id ? currentAppointmentForReschedule._id.substring(0, 8) + '...' : 'N/A'}</h2>
-        <form onSubmit={handleReschedule} className="space-y-3 sm:space-y-4">
-          <div>
-            <label htmlFor="newRescheduleDate" className="block text-sm font-medium text-gray-700">New Date</label>
-            <DatePicker
-              selected={newRescheduleDate}
-              onChange={(date) => setNewRescheduleDate(date)}
-              dateFormat="PPP"
-              className="reschedule-datepicker mt-1" /* Apply custom class here */
-              placeholderText="Select new date"
-              required
-              excludeDates={doctorHolidays} // Exclude holidays
-            />
+
+        {/* Header */}
+        <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+          <div className="flex items-center gap-3">
+            <div className="bg-indigo-50 p-2.5 rounded-xl text-indigo-600 shrink-0">
+              {/* Calendar Refresh Icon */}
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900 leading-tight">
+                Reschedule
+              </h2>
+              <div className="flex items-center gap-1 mt-0.5">
+                <span className="text-xs text-gray-500 font-medium uppercase tracking-wide">
+                  ID:
+                </span>
+                <span className="text-xs font-mono bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-bold">
+                  {appointmentIdDisplay}
+                </span>
+              </div>
+            </div>
           </div>
-          <div>
-            <label htmlFor="newRescheduleTime" className="block text-sm font-medium text-gray-700">New Time Slot</label>
-            <input
-              type="text"
-              id="newRescheduleTime"
-              value={newRescheduleTime}
-              onChange={(e) => setNewRescheduleTime(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm sm:text-base"
-              placeholder="e.g., 10:00 AM - 11:00 AM"
-              required
-            />
-          </div>
-          <div className="flex flex-col-reverse sm:flex-row justify-end space-y-2 sm:space-y-0 space-x-0 sm:space-x-3 pt-2">
-            <button
-              type="button"
-              onClick={() => setShowRescheduleModal(false)}
-              className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
+
+          <button
+            type="button"
+            onClick={() => setShowRescheduleModal(false)}
+            className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200 focus:outline-none"
+            aria-label="Close"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              Reschedule Appointment
-            </button>
-          </div>
-        </form>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Form Body */}
+        <div className="p-6 overflow-y-auto">
+          <form onSubmit={handleReschedule} className="space-y-5">
+            {/* Date Input */}
+            <div>
+              <label
+                htmlFor="newRescheduleDate"
+                className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5 ml-1"
+              >
+                New Date
+              </label>
+              <div className="relative custom-datepicker-wrapper">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 z-10">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <DatePicker
+                  selected={newRescheduleDate}
+                  onChange={(date) => setNewRescheduleDate(date)}
+                  dateFormat="MMMM d, yyyy"
+                  className="reschedule-datepicker-input"
+                  placeholderText="Select new date"
+                  required
+                  excludeDates={doctorHolidays}
+                  popperPlacement="bottom"
+                />
+              </div>
+            </div>
+
+            {/* Time Input */}
+            <div>
+              <label
+                htmlFor="newRescheduleTime"
+                className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5 ml-1"
+              >
+                New Time Slot
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  id="newRescheduleTime"
+                  value={newRescheduleTime}
+                  onChange={(e) => setNewRescheduleTime(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+                  placeholder="e.g. 10:00 AM - 11:00 AM"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Footer Buttons */}
+            <div className="pt-4 flex flex-col-reverse sm:flex-row gap-3 border-t border-gray-100 mt-4">
+              <button
+                type="button"
+                onClick={() => setShowRescheduleModal(false)}
+                className="w-full sm:w-auto px-6 py-2.5 border border-gray-300 rounded-xl text-gray-700 font-semibold text-sm hover:bg-gray-50 hover:shadow-sm transition duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow-md hover:shadow-lg shadow-indigo-200 transition duration-200 flex items-center justify-center gap-2"
+              >
+                <span>Confirm Change</span>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
 }
-//op
+
 export default RescheduleAppointmentModal;
