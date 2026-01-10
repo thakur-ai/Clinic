@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { User, Lock, AlertCircle } from "lucide-react";
+import { User, Lock, AlertCircle, ArrowRight, ShieldCheck } from "lucide-react";
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState("");
@@ -13,7 +13,6 @@ const AdminLoginPage = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     setError("");
-    //op
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/api/admin/login`,
@@ -26,99 +25,182 @@ const AdminLoginPage = () => {
     }
   };
 
+  // Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.8, staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { type: "spring", stiffness: 100 },
+    },
+  };
+
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 px-4">
-
-      {/* Floating background shapes */}
+    <div className="flex min-h-screen w-full bg-white overflow-hidden">
+      {/* --------------------------
+        LEFT SIDE: Visual / Brand (Hidden on Mobile, Visible on Desktop) 
+        --------------------------
+      */}
       <motion.div
-        className="absolute top-20 left-10 w-28 h-28 bg-blue-300 rounded-full opacity-40 blur-2xl"
-        animate={{ y: [0, 30, 0] }}
-        transition={{ repeat: Infinity, duration: 6 }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-36 h-36 bg-indigo-400 rounded-full opacity-30 blur-3xl"
-        animate={{ y: [0, -25, 0] }}
-        transition={{ repeat: Infinity, duration: 7 }}
-      />
-
-      {/* Login Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-white/60 backdrop-blur-xl shadow-xl border border-white/50 rounded-2xl p-6 sm:p-8"
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="hidden lg:flex w-1/2 bg-slate-900 relative items-center justify-center overflow-hidden"
       >
-        <h3 className="text-2xl sm:text-3xl font-extrabold text-center text-gray-800">
-          Admin Login
-        </h3>
-        <p className="text-sm sm:text-base text-center text-gray-600 mt-1">Secure access panel</p>
+        {/* Abstract Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 z-0" />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+          className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+        />
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+          className="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+        />
 
-        {/* Error Alert */}
-        {error && (
+        {/* Brand Content */}
+        <div className="relative z-10 text-center px-12">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center gap-2 bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-md mt-4"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="mb-6 inline-flex p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10"
           >
-            <AlertCircle size={18} />
-            <span className="text-sm">{error}</span>
+            <ShieldCheck className="text-blue-400 w-12 h-12" />
           </motion.div>
-        )}
+          <h2 className="text-4xl font-bold text-white mb-4 tracking-tight">
+            Admin Portal
+          </h2>
+          <p className="text-slate-300 text-lg leading-relaxed max-w-md mx-auto">
+            Manage your clinic's data, appointments, and doctors securely from
+            one central hub.
+          </p>
+        </div>
+      </motion.div>
 
-        <form onSubmit={submitHandler} className="mt-6 space-y-5">
+      {/* --------------------------
+        RIGHT SIDE: Login Form (Full width mobile, Half width desktop)
+        --------------------------
+      */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-24 bg-gray-50 lg:bg-white relative">
+        {/* Mobile-only background blobs */}
+        <div className="lg:hidden absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] right-[-10%] w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-indigo-200 rounded-full blur-3xl opacity-30" />
+        </div>
 
-          {/* Username Field */}
-          <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">
-              Username
-            </label>
-            <div className="relative">
-              <User className="absolute left-3 top-3 text-gray-500" size={18} />
-              <input
-                type="text"
-                placeholder="Enter admin username"
-                className="w-full pl-10 px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-          </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full max-w-md bg-white lg:bg-transparent p-8 rounded-3xl shadow-xl lg:shadow-none border border-gray-100 lg:border-none relative z-10"
+        >
+          {/* Header */}
+          <motion.div variants={itemVariants} className="mb-10">
+            <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+              Welcome back
+            </h3>
+            <p className="text-slate-500 mt-2 text-sm">
+              Please enter your details to sign in.
+            </p>
+          </motion.div>
 
-          {/* Password Field */}
-          <div>
-            <label className="text-sm font-medium text-gray-700 block mb-1">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
-              <input
-                type="password"
-                placeholder="Enter password"
-                className="w-full pl-10 px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </div>
+          {/* Error Message */}
+          {error && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              className="mb-6 overflow-hidden"
+            >
+              <div className="flex items-center gap-3 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-r-md">
+                <AlertCircle size={20} className="shrink-0" />
+                <span className="text-sm font-medium">{error}</span>
+              </div>
+            </motion.div>
+          )}
 
-          {/* Submit Button */}
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold text-base sm:text-lg shadow-md hover:bg-blue-700 transition"
-            type="submit"
-          >
-            Login to Dashboard
-          </motion.button>
+          <form onSubmit={submitHandler} className="space-y-6">
+            {/* Username */}
+            <motion.div variants={itemVariants}>
+              <label className="block text-sm font-semibold text-slate-700 mb-2 ml-1">
+                Username
+              </label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Enter your username"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-slate-900 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all duration-200"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+            </motion.div>
+
+            {/* Password */}
+            <motion.div variants={itemVariants}>
+              <div className="flex justify-between items-center mb-2 ml-1">
+                <label className="block text-sm font-semibold text-slate-700">
+                  Password
+                </label>
+                <a
+                  href="#"
+                  className="text-xs font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  Forgot password?
+                </a>
+              </div>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                </div>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  className="block w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-slate-900 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-100 focus:border-blue-600 transition-all duration-200"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </motion.div>
+
+            {/* Button */}
+            <motion.div variants={itemVariants} className="pt-2">
+              <motion.button
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all duration-200"
+                type="submit"
+              >
+                <span>Sign In</span>
+                <ArrowRight size={18} />
+              </motion.button>
+            </motion.div>
+          </form>
 
           {/* Footer */}
-          <p className="text-xs sm:text-sm text-center text-gray-500">
-            © 2025 Clinic Admin Panel | All Rights Reserved
-          </p>
-        </form>
-      </motion.div>
+          <motion.div variants={itemVariants} className="mt-10 text-center">
+            <p className="text-xs text-slate-400">
+              © 2025 Clinic Admin Panel. <br className="sm:hidden" /> Secure
+              Connection Encrypted.
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };
