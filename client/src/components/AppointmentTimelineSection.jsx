@@ -54,12 +54,6 @@ const AppointmentTimelineSection = ({
                         Reschedule
                       </button>
                     )}
-                    <button 
-                        onClick={() => handleRebookClick(app)} 
-                        className="px-3 py-1.5 rounded-lg bg-emerald-600 text-white border border-emerald-600 text-xs font-semibold hover:bg-emerald-700 shadow-sm shadow-emerald-200 transition-all active:scale-95"
-                    >
-                        Rebook
-                    </button>
                 </div>
               </div>
             ))
