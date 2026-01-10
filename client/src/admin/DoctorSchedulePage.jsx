@@ -247,9 +247,6 @@ function DoctorSchedulePage() {
 
   return (
     <div className="min-h-screen bg-gray-50/80 pb-20 sm:pb-10">
-      {/* This style tag handles the difficult-to-customize parts of the React Datepicker 
-        specifically for mobile screens to ensure it doesn't overflow.
-      */}
       <style>{`
         .react-datepicker {
           font-family: inherit;
@@ -318,39 +315,51 @@ function DoctorSchedulePage() {
               </p>
             </div>
 
-            <div className="w-full md:w-72 mt-1 md:mt-0">
-              <div className="relative group">
+            {/* --- IMPROVED DROPDOWN START --- */}
+            <div className="w-full md:w-80 mt-2 md:mt-0">
+              <div className="relative">
+                {/* Custom Icon wrapper */}
+                <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-indigo-500">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+
+                {/* Styled Select Element */}
                 <select
-                  className="block w-full pl-4 pr-12 py-3 text-sm sm:text-base border-2 border-gray-200 bg-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-lg hover:border-indigo-300 appearance-none"
+                  className="appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 pl-4 pr-10 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 ease-in-out text-sm sm:text-base font-medium cursor-pointer"
                   value={selectedDoctorId}
                   onChange={(e) => {
                     setSelectedDoctorId(e.target.value);
                     setViewDate(new Date());
                   }}
                 >
-                  <option value="" className="text-gray-500">Select a Specialist...</option>
+                  <option value="" className="text-gray-400">
+                    Select a Specialist...
+                  </option>
                   {doctors.map((doctor) => (
-                    <option key={doctor._id} value={doctor._id} className="text-gray-900">
-                      {doctor.name} ({doctor.specialization})
+                    <option
+                      key={doctor._id}
+                      value={doctor._id}
+                      className="text-gray-900 py-2"
+                    >
+                      Dr. {doctor.name} ({doctor.specialization})
                     </option>
                   ))}
                 </select>
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-600 transition-colors"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
               </div>
             </div>
+            {/* --- IMPROVED DROPDOWN END --- */}
           </div>
         </div>
       </div>
