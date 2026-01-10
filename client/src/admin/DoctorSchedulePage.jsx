@@ -357,7 +357,7 @@ function DoctorSchedulePage() {
                       value={doctor._id}
                       className="text-gray-900 py-2"
                     >
-                      Dr. {doctor.name} — {doctor.specialization}
+                      {doctor.name} — {doctor.specialization}
                     </option>
                   ))}
                 </select>
@@ -471,7 +471,7 @@ function DoctorSchedulePage() {
                   </div>
                   <div className="text-right">
                     <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold">
-                      Dr. {doctorSchedule.doctorName}
+                      {doctorSchedule.doctorName}
                     </span>
                   </div>
                 </div>
