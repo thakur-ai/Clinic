@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 
 const seedAdmin = async () => {
     try {
-        const adminUsername = 'ompatil';
-        const adminPassword = '3107'; // The raw password to be hashed
+        const adminUsername = 'admin';
+        const adminPassword = 'securepassword123'; // The raw password to be hashed
 
         let admin = await Admin.findOne({ username: adminUsername });
 
